@@ -1,6 +1,8 @@
 # Launch terminal
 cmd + alt + ctrl - return           :    osascript ~/.config/iterm2/iterm2_start.scpt
-cmd + alt + ctrl - i          :    chunkc set window_float_next 1 && osascript ~/.config/iterm2/iterm2_start.scpt
+cmd + alt + ctrl + shift - s          :    osascript ~/.config/scripts/slack_start.scpt
+cmd + alt + ctrl + shift - m          :    osascript ~/.config/scripts/spotify_start.scpt
+cmd + alt + ctrl + shift - v          :    osascript ~/.config/scripts/vscode_start.scpt
 
 # Restart khd
 cmd + alt + ctrl - escape           :    brew services restart khd
