@@ -1,0 +1,18 @@
+[user]
+	name = Dan McKenzie
+	email = mckenziejdan@gmail.com
+[url "https://github.com/"]
+	insteadOf = git@github.com:
+[credential]
+	helper = cache --timeout=600
+[push]
+	default = simple
+[url "https://"]
+	insteadOf = git://
+[color]
+	diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true

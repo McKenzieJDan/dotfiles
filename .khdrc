@@ -1,0 +1,65 @@
+# Launch terminal
+cmd + alt + ctrl - return           :    osascript ~/.config/iterm2/iterm2_start.scpt
+cmd + alt + ctrl - i          :    chunkc set window_float_next 1 && osascript ~/.config/iterm2/iterm2_start.scpt
+
+# Restart khd
+cmd + alt + ctrl - escape           :    brew services restart khd
+
+# Lock Screen
+cmd + alt + ctrl - l                :    pmset displaysleepnow
+
+# Close Window
+cmd + alt + ctrl - w                :    khd -p "cmd - w"
+
+# Close application
+cmd + alt + ctrl - q                :    khd -p "cmd - q"
+
+# Full Screen
+cmd + alt + ctrl - f                :    chunkc tiling::window --toggle fullscreen
+
+# Parent
+cmd + alt + ctrl - d                :    chunkc tiling::window --toggle parent
+
+# Toggle split type, vert or hoz
+cmd + alt + ctrl - p                :    chunkc tiling::window --toggle split
+
+# Toggle floating window
+cmd + alt + ctrl - s                :    chunkc tiling::window --toggle float;\
+                                         chunkc tiling::window --grid-layout 4:4:1:1:2:2
+
+
+# Entire desktop floating
+cmd + alt + ctrl - 0x21                :    chunkc tiling::desktop --layout float
+
+# Entire desktop bsp
+cmd + alt + ctrl - 0x1e                :    chunkc tiling::desktop --layout bsp
+
+# Equalise windows
+cmd + alt + ctrl - e                :    chunkc tiling::desktop --equalize
+
+# Move between spaces
+cmd + alt + ctrl + shift - 0x12    :    chunkc tiling::window --send-to-desktop 1
+cmd + alt + ctrl + shift - 0x13    :    chunkc tiling::window --send-to-desktop 2
+cmd + alt + ctrl + shift - 0x14    :    chunkc tiling::window --send-to-desktop 3
+cmd + alt + ctrl + shift - 0x15    :    chunkc tiling::window --send-to-desktop 4
+cmd + alt + ctrl + shift - 0x17    :    chunkc tiling::window --send-to-desktop 5
+cmd + alt + ctrl + shift - 0x16    :    chunkc tiling::window --send-to-desktop 6
+cmd + alt + ctrl + shift - 0x1a    :    chunkc tiling::window --send-to-desktop 7
+cmd + alt + ctrl + shift - 0x1c    :    chunkc tiling::window --send-to-desktop 8
+cmd + alt + ctrl + shift - 0x19    :    chunkc tiling::window --send-to-desktop 9
+
+# Focus windows
+cmd + alt + ctrl - left            :    chunkc tiling::window --focus west
+cmd + alt + ctrl - right           :    chunkc tiling::window --focus east
+cmd + alt + ctrl - down            :    chunkc tiling::window --focus south
+cmd + alt + ctrl - up              :    chunkc tiling::window --focus north
+
+# Move windows
+cmd + alt + ctrl + shift - left     :    chunkc tiling::window --warp west
+cmd + alt + ctrl + shift - down     :    chunkc tiling::window --warp south
+cmd + alt + ctrl + shift - up       :    chunkc tiling::window --warp north
+cmd + alt + ctrl + shift - right : chunkc tiling::window --warp east
+
+# Follow Mouse
+cmd + ctrl + alt + shift - m : chunkc core::load ffm.so
+cmd + ctrl + alt - m : chunkc core::unload ffm.so
