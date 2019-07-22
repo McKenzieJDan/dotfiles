@@ -6,13 +6,20 @@
 [credential]
 	helper = cache --timeout=600
 [push]
-	default = simple
+	default = current
 [url "https://"]
 	insteadOf = git://
 [color]
 	diff = auto
-  status = auto
-  branch = auto
-  interactive = auto
-  ui = true
-  pager = true
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %C(bold blue)%an%Creset %Cgreen%cr%Creset' --abbrev-commit --
+    st = status
+    ci = commit
+    last = log -1 HEAD
+    fp = !git fetch --all && git pull
+    nvp = push -u origin --no-verify
