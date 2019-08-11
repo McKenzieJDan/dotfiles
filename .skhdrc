@@ -1,0 +1,46 @@
+# Launch terminal
+cmd + alt + ctrl - return           :    osascript ~/.config/iterm2/iterm2_start.scpt
+cmd + alt + ctrl + shift - s          :    osascript ~/.config/scripts/slack_start.scpt
+cmd + alt + ctrl + shift - m          :    osascript ~/.config/scripts/spotify_start.scpt
+cmd + alt + ctrl + shift - v          :    osascript ~/.config/scripts/vscode_start.scpt
+
+# Restart skhd
+cmd + alt + ctrl - escape           :    brew services restart skhd
+
+# Lock Screen
+cmd + alt + ctrl - l                :    pmset displaysleepnow
+
+# Close Window
+cmd + alt + ctrl - w                :    skhd -k "cmd - w"
+
+# Close application
+cmd + alt + ctrl - q : skhd -k "cmd - q"
+
+# Full Screen
+cmd + alt + ctrl - f : yabai -m window --toggle zoom-fullscreen
+
+# Parent
+cmd + alt + ctrl - d : yabai -m window --toggle zoom-parent
+
+# Toggle split type, vert or hoz
+cmd + alt + ctrl - p : yabai -m window --toggle split
+
+# Equalise windows
+cmd + alt + ctrl - e : yabai -m space --balance
+
+# Move windows
+cmd + alt + ctrl + shift - left     :    yabai -m window --warp west
+cmd + alt + ctrl + shift - down     :    yabai -m window --warp south
+cmd + alt + ctrl + shift - up       :    yabai -m window --warp north
+cmd + alt + ctrl + shift - right    :    yabai -m window --warp east
+
+# Focus windows
+cmd + alt + ctrl - left  : yabai -m window --focus west
+cmd + alt + ctrl - right : yabai -m window --focus east
+cmd + alt + ctrl - down  : yabai -m window --focus south
+cmd + alt + ctrl - up    : yabai -m window --focus north
+
+# Toggle floating window
+cmd + alt + ctrl - s : yabai -m window --toggle float;\
+                       yabai -m window --grid 4:4:1:1:2:2
+
