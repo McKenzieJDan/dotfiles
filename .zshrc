@@ -10,7 +10,7 @@ HISTCONTROL=ignoredups:ignorespace
 
 alias sudo='sudo '
 
-plugins=(git zsh-completions zsh-autosuggestions zsh-iterm-touchbar pip)
+plugins=(git zsh-completions zsh-autosuggestions pip)
 
 ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
@@ -43,11 +43,8 @@ alias dotcfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH="$HOME/.fastlane/bin:$PATH"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
