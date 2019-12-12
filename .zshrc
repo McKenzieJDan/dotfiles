@@ -38,8 +38,10 @@ mkd() {
 	mkdir -p "$@" && cd "$@"
 }
 
-# Dotfiles git -> dotcfg
-alias dotcfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# tidy local - remote git branches
+tidy_branches() {
+  git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done
+}
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -47,4 +49,12 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 export PATH="/usr/local/opt/llvm/bin:$PATH"
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+# Source chtf
+if [[ -f /usr/local/share/chtf/chtf.sh ]]; then
+    source "/usr/local/share/chtf/chtf.sh"
+fi
+
+export PATH="${HOME}/go/bin:$PATH"
+export PATH="/usr/local/opt/node@12/bin:$PATH"
