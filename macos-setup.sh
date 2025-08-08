@@ -22,6 +22,15 @@ defaults write com.apple.Dock static-only -bool TRUE
 # Restart Dock to apply changes
 killall Dock
 
+# Set Computer Name
+echo "Setting computer name..."
+echo "💡 Suggestion: Use Greek/space names (e.g., Apollo, Artemis, Satellite, Rocket, Cosmos, Orion)"
+
+# TODO: Replace [COMPUTER_NAME] with your chosen name
+sudo scutil --set ComputerName "[COMPUTER_NAME]"
+sudo scutil --set HostName "[COMPUTER_NAME]"
+sudo scutil --set LocalHostName "[COMPUTER_NAME]"
+
 # Login Window Banner
 echo "Setting up login window banner..."
 echo "⚠️  CUSTOMIZE THE DETAILS BELOW:"
