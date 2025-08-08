@@ -1,46 +1,68 @@
-# Launch terminal
-cmd + alt + ctrl - return           :    osascript ~/.config/iterm2/iterm2_start.scpt
-cmd + alt + ctrl + shift - s        :    osascript ~/.config/scripts/slack_start.scpt
-cmd + alt + ctrl + shift - m        :    osascript ~/.config/scripts/spotify_start.scpt
-cmd + alt + ctrl + shift - v        :    osascript ~/.config/scripts/vscode_start.scpt
-
-# Restart skhd
-cmd + alt + ctrl - escape           :    brew services restart skhd
+# Restart khd
+cmd + alt + ctrl - escape           :    yabai --restart-service
 
 # Lock Screen
-cmd + alt + ctrl - l                :    pmset displaysleepnow
+#cmd + alt + ctrl - l                :    pmset displaysleepnow
 
 # Close Window
 cmd + alt + ctrl - w                :    skhd -k "cmd - w"
 
 # Close application
-cmd + alt + ctrl - q : skhd -k "cmd - q"
+cmd + alt + ctrl - q                :    skhd -k "cmd - q"
 
 # Full Screen
-cmd + alt + ctrl - f : yabai -m window --toggle zoom-fullscreen
+cmd + alt + ctrl - f                :    yabai -m window --toggle zoom-fullscreen
 
 # Parent
-cmd + alt + ctrl - d : yabai -m window --toggle zoom-parent
+cmd + alt + ctrl - d                :    yabai -m window --toggle zoom-parent
 
 # Toggle split type, vert or hoz
-cmd + alt + ctrl - p : yabai -m window --toggle split
+cmd + alt + ctrl - p                :    yabai -m window --toggle split
+
+# Toggle floating window
+cmd + alt + ctrl - s                :    yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+# Toggle sticky
+cmd + alt + ctrl - z                :    yabai -m window --toggle sticky
+
+# Toggle topmost (keep above over windows)
+cmd + alt + ctrl - x                :    yabai -m window --toggle topmost
+
+# Entire desktop floating
+cmd + alt + ctrl - 0x21             :    yabai -m space --layout float
+
+# Entire desktop bsp
+cmd + alt + ctrl - 0x1E             :    yabai -m space --layout bsp
+
+# Small space in middle
+cmd + alt + ctrl - k                :    yabai -m space --padding abs:150:150:600:600
+
+# Big space
+cmd + alt + ctrl - l                :    yabai -m space --padding abs:10:10:10:10
 
 # Equalise windows
-cmd + alt + ctrl - e : yabai -m space --balance
+cmd + alt + ctrl - e                :    yabai -m space --balance
+
+# Move between spaces
+cmd + alt + ctrl + shift - 1    :    yabai -m window --space 1
+cmd + alt + ctrl + shift - 2    :    yabai -m window --space 2
+cmd + alt + ctrl + shift - 3    :    yabai -m window --space 3
+cmd + alt + ctrl + shift - 4    :    yabai -m window --space 4
+cmd + alt + ctrl + shift - 5    :    yabai -m window --space 5
+cmd + alt + ctrl + shift - 6    :    yabai -m window --space 6
+cmd + alt + ctrl + shift - 7    :    yabai -m window --space 7
+cmd + alt + ctrl + shift - 8    :    yabai -m window --space 8
+cmd + alt + ctrl + shift - 9    :    yabai -m window --space 9
+
+# Focus windows
+cmd + alt + ctrl - left            :    yabai -m window --focus west
+cmd + alt + ctrl - right           :    yabai -m window --focus east
+cmd + alt + ctrl - down            :    yabai -m window --focus south
+cmd + alt + ctrl - up              :    yabai -m window --focus north
 
 # Move windows
 cmd + alt + ctrl + shift - left     :    yabai -m window --warp west
 cmd + alt + ctrl + shift - down     :    yabai -m window --warp south
 cmd + alt + ctrl + shift - up       :    yabai -m window --warp north
 cmd + alt + ctrl + shift - right    :    yabai -m window --warp east
-
-# Focus windows
-cmd + alt + ctrl - left  : yabai -m window --focus west
-cmd + alt + ctrl - right : yabai -m window --focus east
-cmd + alt + ctrl - down  : yabai -m window --focus south
-cmd + alt + ctrl - up    : yabai -m window --focus north
-
-# Toggle floating window
-cmd + alt + ctrl - s : yabai -m window --toggle float;\
-                       yabai -m window --grid 4:4:1:1:2:2
 
