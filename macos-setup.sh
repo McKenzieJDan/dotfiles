@@ -22,6 +22,14 @@ defaults write com.apple.Dock static-only -bool TRUE
 # Restart Dock to apply changes
 killall Dock
 
+# Login Window Banner
+echo "Setting up login window banner..."
+echo "⚠️  CUSTOMIZE THE DETAILS BELOW:"
+
+# TODO: Replace with your actual name and contact info
+loginbanner=$(printf "This Mac belongs to [YOUR NAME].\nCall [YOUR PHONE] if found.")
+sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "$loginbanner"
+
 echo "macOS setup complete!"
 echo ""
 echo "Additional manual setup:"
