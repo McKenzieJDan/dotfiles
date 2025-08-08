@@ -1,14 +1,20 @@
 [user]
-	name = Dan McKenzie
-	email = mckenziejdan@gmail.com
+	name = Daniel McKenzie
+	email = 16889045+McKenzieJDan@users.noreply.github.com
+	signingkey = 3D16E5CDC33AEC82
+
 [url "https://github.com/"]
 	insteadOf = git@github.com:
+
 [credential]
-	helper = cache --timeout=600
+	helper = cache
+
 [push]
 	default = current
+
 [url "https://"]
 	insteadOf = git://
+
 [color]
 	diff = auto
 	status = auto
@@ -16,16 +22,33 @@
 	interactive = auto
 	ui = true
 	pager = true
+
 [alias]
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %C(bold blue)%an%Creset %Cgreen%cr%Creset' --abbrev-commit --
-    st = status
-    p =  push -u origin --no-verify
-    ci = commit
-    last = log -1 HEAD
-    fp = !git fetch --all && git pull
-    nvp = push -u origin --no-verify
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %C(bold blue)%an%Creset %Cgreen%cr%Creset' --abbrev-commit --
+	st = status
+	p =  push -u origin --no-verify
+	ci = commit
+	last = log -1 HEAD
+	fp = !git fetch --all && git pull
+	nvp = push -u origin --no-verify
 	su = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
 	c = checkout
+	s = switch
 	r = rebase
+	cp = cherry-pick -x
+	tack = !git commit -a --amend --no-edit
+
 [branch]
 	autosetupmerge = always
+
+[pull]
+	rebase = true
+
+[commit]
+	gpgsign = true
+[transfer]
+	fsckObjects = true
+[fetch]
+	fsckObjects = true
+[receive]
+	fsckObjects = true
