@@ -151,7 +151,7 @@ done
 echo "macOS setup complete!"
 echo ""
 echo "Additional manual setup:"
-echo "- Configure Git: update name/email in .gitconfig"
+echo "- Configure Git: update name/email in ~/.gitconfig"
 echo "- Edit this script to set computer name and login banner"
 echo "- Run system updates: update-everything"
 echo "- Some changes require a logout/restart to take effect"

@@ -43,11 +43,17 @@ log "Backing up existing dotfiles..."
 backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$backup_dir"
 
-# Backup individual dotfiles
-for file in .zshrc .aliases .functions .gitconfig .gitignore_global; do
-    if [ -f "$HOME/$file" ]; then
-        mv "$HOME/$file" "$backup_dir/"
-        log "Backed up $file to $backup_dir/"
+# Backup existing dotfiles and configs
+if [ -f "$HOME/.zshrc" ]; then
+    mv "$HOME/.zshrc" "$backup_dir/"
+    log "Backed up .zshrc to $backup_dir/"
+fi
+
+# Backup existing config directories
+for config in git zsh; do
+    if [ -d "$HOME/.config/$config" ]; then
+        mv "$HOME/.config/$config" "$backup_dir/config_$config" 2>/dev/null || true
+        log "Backed up .config/$config to $backup_dir/config_$config"
     fi
 done
 
@@ -57,36 +63,27 @@ if [ -d "$HOME/.config" ]; then
     log "Backed up .config directory to $backup_dir/ (ignoring socket files and permission errors)"
 fi
 
-# Create symlinks for dotfiles
-log "Creating symlinks for dotfiles..."
-for file in .zshrc .aliases .functions .gitconfig .gitignore_global; do
-    if [ -f "$DOTFILES_DIR/$file" ]; then
-        ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
-        log "Linked $file"
-    fi
-done
+# Create main dotfile symlinks
+log "Creating main dotfile symlinks..."
+ln -sf "$DOTFILES_DIR/.config/zsh/.zshrc" "$HOME/.zshrc"
+ln -sf "$DOTFILES_DIR/.config/git/.gitconfig" "$HOME/.gitconfig"
+ln -sf "$DOTFILES_DIR/.config/git/.gitignore_global" "$HOME/.gitignore_global"
+log "Linked .zshrc → .config/zsh/.zshrc"
+log "Linked .gitconfig → .config/git/.gitconfig"
+log "Linked .gitignore_global → .config/git/.gitignore_global"
 
-# Create .config directory and symlink individual config files
+# Create .config directory and symlink config directories
 log "Setting up .config directory..."
 mkdir -p "$HOME/.config"
 
-if [ -d "$DOTFILES_DIR/.config" ]; then
-    for config_dir in "$DOTFILES_DIR/.config"/*; do
-        if [ -d "$config_dir" ]; then
-            config_name=$(basename "$config_dir")
-            mkdir -p "$HOME/.config/$config_name"
-            
-            # Link individual files instead of the whole directory
-            for config_file in "$config_dir"/*; do
-                if [ -f "$config_file" ]; then
-                    file_name=$(basename "$config_file")
-                    ln -sf "$config_file" "$HOME/.config/$config_name/$file_name"
-                    log "Linked .config/$config_name/$file_name"
-                fi
-            done
-        fi
-    done
-fi
+# Link entire config directories
+for config_dir in "$DOTFILES_DIR/.config"/*; do
+    if [ -d "$config_dir" ]; then
+        config_name=$(basename "$config_dir")
+        ln -sf "$config_dir" "$HOME/.config/$config_name"
+        log "Linked .config/$config_name → dotfiles/.config/$config_name"
+    fi
+done
 
 # Make scripts executable
 log "Making scripts executable..."

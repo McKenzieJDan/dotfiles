@@ -29,19 +29,22 @@ Window management (Cmd + Alt + Ctrl + ...):
 
 ## Notes
 
-- Update Git name/email in `.gitconfig`
+- Update Git name/email in `~/.gitconfig`
 - Update computer name in `macos-setup.sh`
 
 ## Files
 
 ```
-Brewfile            
-install.sh           
-macos-setup.sh       
-update-everything    
-.zshrc              
-.config/yabai/      
-.config/skhd/       
+Brewfile                    # Homebrew package list
+install.sh                  # Auto-setup script
+macos-setup.sh             # System preferences
+update-everything.sh       # Update script
+.config/
+  ├── git/                 # Git configuration
+  ├── zsh/                 # Shell configuration  
+  ├── yabai/               # Window manager
+  ├── skhd/                # Hotkey daemon
+  └── karabiner/           # Keyboard remapping
 ```
 
 ## Maintenance
