@@ -39,9 +39,17 @@ echo "⚠️  CUSTOMIZE THE DETAILS BELOW:"
 loginbanner=$(printf "This Mac belongs to [YOUR NAME].\nCall [YOUR PHONE] if found.")
 sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "$loginbanner"
 
+# Make update script globally accessible
+echo "Setting up global update script..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+chmod +x "$SCRIPT_DIR/update-everything.sh"
+sudo ln -sf "$SCRIPT_DIR/update-everything.sh" /usr/local/bin/update-everything
+echo "✅ update-everything script installed globally"
+
 echo "macOS setup complete!"
 echo ""
 echo "Additional manual setup:"
 echo "- Install apps: brew bundle install"
 echo "- Copy configs: cp -r .config/* ~/.config/"
 echo "- Copy dotfiles: cp .skhdrc .yabairc .gitconfig ~/"
+echo "- Run system updates: update-everything"
