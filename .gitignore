@@ -1,1 +1,10 @@
-*.DS_Store
+.DS_Store
+.zsh_history
+.python_history
+.zcompdump
+.zsh_sessions/
+.Trash/
+.config/gh/hosts.yml
+.config/karabiner/automatic_backups/
+*.save
+*.bak

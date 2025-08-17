@@ -1,7 +1,6 @@
 [user]
 	name = Daniel McKenzie
 	email = 16889045+McKenzieJDan@users.noreply.github.com
-	signingkey = 3D16E5CDC33AEC82
 
 [url "https://github.com/"]
 	insteadOf = git@github.com:
@@ -45,7 +44,7 @@
 	rebase = true
 
 [commit]
-	gpgsign = true
+	gpgsign = false
 [transfer]
 	fsckObjects = true
 [fetch]
