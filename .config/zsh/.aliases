@@ -57,6 +57,7 @@ alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false &
 alias desktop="cd ~/Desktop"
 alias downloads="cd ~/Downloads"
 alias documents="cd ~/Documents"
+alias git="cd ~/git"
 
 # Quick edit configs
 alias zshconfig="$EDITOR ~/.zshrc"
