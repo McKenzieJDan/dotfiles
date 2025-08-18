@@ -4,7 +4,7 @@
 .zcompdump
 .zsh_sessions/
 .Trash/
-.config/gh/hosts.yml
 .config/karabiner/automatic_backups/
+.config/zsh/.zsh_history
 *.save
 *.bak
