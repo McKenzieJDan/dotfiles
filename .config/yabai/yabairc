@@ -32,5 +32,15 @@ yabai -m config window_topmost on
 # yabai -m config normal_window_opacity 0.90
 
 # App Rules (float / unmanaged)
-systemApp='^(System Preferences|System Settings|System Information|Finder|Calendar|Mail|App Store|Activity Monitor|Dictionary|Ca
+systemApp='^(System Preferences|System Settings|System Information|Finder|Calendar|Mail|App Store|Activity Monitor|Dictionary|Calculator|Archive Utility|Disk Utility|Console|TextEdit|Preview|QuickTime Player)$'
 
+# Float system apps
+yabai -m rule --add app="${systemApp}" manage=off
+
+# Float specific app windows
+yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add app="^Chrome$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+
+# Float notification center and similar
+yabai -m rule --add app="^(Notification Center|Control Center)$" manage=off
