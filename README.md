@@ -9,6 +9,7 @@ Personal macOS setup. Quick install for new machines.
 - **Shell**: zsh with good aliases and functions  
 - **Window management**: yabai + skhd configs
 - **Git**: Decent defaults and shortcuts
+- **Backup**: Backrest configuration template (requires setup)
 
 ## Setup
 
@@ -31,6 +32,7 @@ Window management (Cmd + Alt + Ctrl + ...):
 
 - Update Git name/email in `~/.gitconfig`
 - Update computer name in `macos-setup.sh`
+- Configure Backrest: see `.config/backrest/README.md`
 
 ## Files
 
@@ -44,7 +46,8 @@ update-everything.sh       # Update script
   ├── zsh/                 # Shell configuration  
   ├── yabai/               # Window manager
   ├── skhd/                # Hotkey daemon
-  └── karabiner/           # Keyboard remapping
+  ├── karabiner/           # Keyboard remapping
+  └── backrest/            # Backup configuration
 ```
 
 ## Maintenance

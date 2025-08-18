@@ -1,4 +1,5 @@
 tap "koekeishiya/formulae"
+tap "garethgeorge/homebrew-backrest-tap"
 
 # Development tools
 brew "gh"
@@ -26,6 +27,9 @@ brew "fzf"
 # Window management
 brew "koekeishiya/formulae/skhd"
 brew "koekeishiya/formulae/yabai"
+
+# Backup
+brew "garethgeorge/backrest-tap/backrest"
 
 # Applications
 cask "1password"

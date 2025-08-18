@@ -1,0 +1,71 @@
+{
+  "modno": 2,
+  "version": 4,
+  "instance": "YOUR_INSTANCE_NAME",
+  "repos": [
+    {
+      "id": "YOUR_REPO_NAME",
+      "uri": "s3://YOUR_S3_BUCKET_URL",
+      "guid": "GENERATED_REPO_GUID",
+      "password": "YOUR_REPO_PASSWORD",
+      "env": [
+        "AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY",
+        "AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY"
+      ],
+      "prunePolicy": {
+        "schedule": {
+          "cron": "0 0 1 * *",
+          "clock": "CLOCK_LAST_RUN_TIME"
+        },
+        "maxUnusedPercent": 10
+      },
+      "checkPolicy": {
+        "schedule": {
+          "cron": "0 0 1 * *",
+          "clock": "CLOCK_LAST_RUN_TIME"
+        },
+        "readDataSubsetPercent": 0
+      },
+      "commandPrefix": {}
+    }
+  ],
+  "plans": [
+    {
+      "id": "YOUR_BACKUP_PLAN_NAME",
+      "repo": "YOUR_REPO_NAME",
+      "paths": [
+        "/Users/YOUR_USERNAME"
+      ],
+      "excludes": [
+        "**/Library",
+        "**/node_modules",
+        "**/.Trash",
+        "**/.cache",
+        "**/Applications",
+        "*.DS_Store"
+      ],
+      "schedule": {
+        "maxFrequencyDays": 1,
+        "clock": "CLOCK_LAST_RUN_TIME"
+      },
+      "retention": {
+        "policyTimeBucketed": {
+          "daily": 7,
+          "weekly": 4,
+          "monthly": 6,
+          "yearly": 1
+        }
+      }
+    }
+  ],
+  "auth": {
+    "disabled": true
+  },
+  "sync": {
+    "identity": {
+      "keyId": "GENERATED_KEY_ID",
+      "ed25519priv": "GENERATED_PRIVATE_KEY",
+      "ed25519pub": "GENERATED_PUBLIC_KEY"
+    }
+  }
+}

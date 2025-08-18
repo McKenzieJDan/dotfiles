@@ -1,10 +1,22 @@
+# Override global gitignore - we DO want .config in dotfiles
+!.config/
+
+# System files
 .DS_Store
 .zsh_history
 .python_history
 .zcompdump
 .zsh_sessions/
 .Trash/
+
+# Specific config excludes
 .config/karabiner/automatic_backups/
 .config/zsh/.zsh_history
+
+# Backrest - exclude actual config with secrets, include template
+.config/backrest/config.json
+
+# Backup files
 *.save
 *.bak
+config.json.bak.*

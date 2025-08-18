@@ -50,7 +50,7 @@ if [ -f "$HOME/.zshrc" ]; then
 fi
 
 # Backup existing config directories
-for config in git zsh; do
+for config in git zsh backrest; do
     if [ -d "$HOME/.config/$config" ]; then
         mv "$HOME/.config/$config" "$backup_dir/config_$config" 2>/dev/null || true
         log "Backed up .config/$config to $backup_dir/config_$config"
@@ -110,6 +110,21 @@ if command -v yabai &> /dev/null && command -v skhd &> /dev/null; then
     log "Starting yabai and skhd services..."
     yabai --start-service
     skhd --start-service
+fi
+
+# Setup backrest configuration
+if [ -f "$HOME/.config/backrest/config.json.template" ] && [ ! -f "$HOME/.config/backrest/config.json" ]; then
+    warn "Backrest config template found but no config.json exists."
+    warn "Please copy and configure: cp ~/.config/backrest/config.json.template ~/.config/backrest/config.json"
+    warn "See ~/.config/backrest/README.md for setup instructions."
+fi
+
+# Start backrest service
+if command -v backrest &> /dev/null && [ -f "$HOME/.config/backrest/config.json" ]; then
+    log "Starting backrest service..."
+    brew services start garethgeorge/backrest-tap/backrest
+elif command -v backrest &> /dev/null; then
+    warn "Backrest installed but config.json not found. Service not started."
 fi
 
 log "Installation complete!"

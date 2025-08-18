@@ -63,3 +63,6 @@ alias zshconfig="$EDITOR ~/.zshrc"
 alias aliases="$EDITOR ~/.aliases"
 alias functions="$EDITOR ~/.functions"
 alias gitconfig="$EDITOR ~/.gitconfig"
+
+# Backup management
+alias backups="open http://127.0.0.1:9898/"
