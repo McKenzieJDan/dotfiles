@@ -50,14 +50,27 @@ else
   fi
 
   if load_nvm; then
-    log "Node.js: installing latest LTS, updating npm, and migrating globals"
+    log "Node.js: installing latest LTS and updating npm"
     current_node="$(nvm current 2>/dev/null || true)"
-    if [ -n "$current_node" ] && [ "$current_node" != "none" ]; then
-      nvm install --lts --latest-npm --reinstall-packages-from="$current_node" || true
-    else
-      nvm install --lts --latest-npm || true
+
+    # Optionally capture current global packages for later selective migration
+    previous_globals=""
+    if [ -n "$current_node" ] && [ "$current_node" != "none" ] && [[ "${MIGRATE_GLOBALS:-}" = "1" ]]; then
+      log "Capturing list of current global npm packages for migration"
+      previous_globals="$({ npm -g ls --depth=0 --json 2>/dev/null | node -e 'let s=\"\";process.stdin.on(\"data\",d=>s+=d).on(\"end\",()=>{try{let p=JSON.parse(s).dependencies||{};let skip=new Set([\"npm\",\"corepack\"]);for(const n of Object.keys(p)){if(!skip.has(n)) console.log(n)}}catch(e){}}'; } 2>/dev/null || true)"
     fi
-    nvm alias default lts/* || true
+
+    nvm install --lts --latest-npm || true
+    nvm alias default 'lts/*' || true
+
+    # Optionally reinstall previous globals one-by-one, skipping failures
+    if [ -n "${previous_globals}" ]; then
+      log "Reinstalling previous global npm packages (best-effort)"
+      for pkg in ${previous_globals}; do
+        log "npm -g install ${pkg}"
+        npm install -g "$pkg" || log "Skipping failed global reinstall: $pkg"
+      done
+    fi
 
     if command -v corepack >/dev/null 2>&1; then
       log "Corepack: enabling and updating Yarn and pnpm"
