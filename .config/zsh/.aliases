@@ -47,7 +47,7 @@ alias json="pbpaste | jq ."
 # Utilities
 alias cat="bat"
 alias find="fd"
-alias grep="ripgrep"
+alias grep="rg"
 alias top="htop"
 alias tree="tree -C"
 
@@ -57,11 +57,11 @@ alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false &
 alias desktop="cd ~/Desktop"
 alias downloads="cd ~/Downloads"
 alias documents="cd ~/Documents"
-alias git="cd ~/git"
+alias cgit="cd ~/git"
 
 # Quick edit configs
 alias zshconfig="$EDITOR ~/.zshrc"
-alias aliases="$EDITOR ~/.aliases"
+alias aliases="$EDITOR ~/.config/zsh/.aliases"
 alias functions="$EDITOR ~/.functions"
 alias gitconfig="$EDITOR ~/.gitconfig"
 
