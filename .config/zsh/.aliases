@@ -43,6 +43,7 @@ alias python="python3"
 alias pip="pip3"
 alias serve="python3 -m http.server"
 alias json="pbpaste | jq ."
+alias code="cursor"
 
 # Utilities
 alias cat="bat"
