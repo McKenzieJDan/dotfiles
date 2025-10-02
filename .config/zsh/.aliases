@@ -65,5 +65,9 @@ alias aliases="$EDITOR ~/.config/zsh/.aliases"
 alias functions="$EDITOR ~/.functions"
 alias gitconfig="$EDITOR ~/.gitconfig"
 
+# Dotfiles management
+alias update-everything="~/git/dotfiles/update-everything.sh"
+alias dotfiles="cd ~/git/dotfiles"
+
 # Backup management
 alias backups="open http://127.0.0.1:9898/"

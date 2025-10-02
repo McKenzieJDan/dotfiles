@@ -35,11 +35,12 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Python
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-. "$HOME/.local/bin/env"
 
 # GPG
-export GPG_TTY=$(tty)
-gpgconf --launch gpg-agent
+if command -v gpgconf >/dev/null 2>&1; then
+  export GPG_TTY=$(tty)
+  gpgconf --launch gpg-agent >/dev/null 2>&1 || true
+fi
 
 # FZF
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
