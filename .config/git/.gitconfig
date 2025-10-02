@@ -1,6 +1,7 @@
 [user]
 	name = Dan McKenzie
 	email = 16889045+McKenzieJDan@users.noreply.github.com
+	signingkey = 51231A8FE38EDF6EFF71958AEA4FFBB1BF647D41
 
 [url "https://github.com/"]
 	insteadOf = git@github.com:
@@ -132,3 +133,7 @@
 # Include local gitconfig if it exists
 [include]
 	path = ~/.gitconfig.local
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
