@@ -113,6 +113,13 @@ defaults write com.apple.screencapture disable-shadow -bool true
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
+# Hot Corners
+echo "Configuring hot corners..."
+
+# Top left screen corner → Lock Screen
+defaults write com.apple.dock wvous-tl-corner -int 13
+defaults write com.apple.dock wvous-tl-modifier -int 0
+
 # Set Computer Name
 echo "Setting computer name..."
 echo "💡 Suggestion: Use Greek/space names (e.g., Apollo, Artemis, Satellite, Rocket, Cosmos, Orion)"
