@@ -76,6 +76,20 @@ if command -v pnpm &> /dev/null; then
     pnpm store prune 2>/dev/null || true
 fi
 
+# nvm cleanup
+if [ -d "$HOME/.nvm" ]; then
+    log "Cleaning nvm caches..."
+    
+    info "Clearing nvm cache"
+    rm -rf ~/.nvm/.cache 2>/dev/null || true
+    
+    info "Removing old nvm versions (keeping current version)"
+    # This will only clean up if nvm is loaded
+    if command -v nvm &> /dev/null; then
+        nvm cache clear 2>/dev/null || true
+    fi
+fi
+
 # Python cleanup
 if command -v pip3 &> /dev/null; then
     log "Cleaning Python caches..."

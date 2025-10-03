@@ -46,6 +46,26 @@ log "Installing applications and tools via Homebrew..."
 cd "$DOTFILES_DIR"
 brew bundle install
 
+# Install nvm (Node Version Manager)
+if [ ! -d "$HOME/.nvm" ]; then
+    log "Installing nvm (Node Version Manager)..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    
+    # Load nvm for this session
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    
+    # Install latest LTS version of Node.js
+    log "Installing latest LTS version of Node.js via nvm..."
+    nvm install --lts
+    nvm use --lts
+    nvm alias default 'lts/*'
+    
+    log "✅ nvm installed with Node.js $(node --version)"
+else
+    log "nvm already installed"
+fi
+
 # Backup existing dotfiles
 log "Backing up existing dotfiles..."
 backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
@@ -124,7 +144,14 @@ mkdir -p "$HOME/.config"
 for config_dir in "$DOTFILES_DIR/.config"/*; do
     if [ -d "$config_dir" ]; then
         config_name=$(basename "$config_dir")
-        ln -sf "$config_dir" "$HOME/.config/$config_name"
+        target="$HOME/.config/$config_name"
+        
+        # Remove existing symlink or directory if it exists
+        if [ -L "$target" ] || [ -d "$target" ]; then
+            rm -rf "$target"
+        fi
+        
+        ln -sf "$config_dir" "$target"
         log "Linked .config/$config_name → dotfiles/.config/$config_name"
     fi
 done

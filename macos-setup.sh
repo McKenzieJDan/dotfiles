@@ -56,9 +56,28 @@ defaults write NSGlobalDomain com.apple.springing.delay -float 0
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-# Use list view in all Finder windows by default
-# Four-letter codes for the other view modes: `icnv`, `clmv`, `glyv`
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+# Use icon view in all Finder windows by default
+# Four-letter codes for the other view modes: `Nlsv` (list), `clmv` (column), `glyv` (gallery)
+defaults write com.apple.finder FXPreferredViewStyle -string "glyv"
+
+# Icon view settings
+defaults write com.apple.finder IconViewSettings -dict-add arrangeBy name
+defaults write com.apple.finder IconViewSettings -dict-add gridSpacing 54
+defaults write com.apple.finder IconViewSettings -dict-add iconSize 64
+defaults write com.apple.finder IconViewSettings -dict-add showItemInfo false
+defaults write com.apple.finder IconViewSettings -dict-add textSize 12
+
+# Desktop icon view settings
+defaults write com.apple.finder DesktopViewSettings -dict-add arrangeBy name
+defaults write com.apple.finder DesktopViewSettings -dict-add gridSpacing 54
+defaults write com.apple.finder DesktopViewSettings -dict-add iconSize 64
+defaults write com.apple.finder DesktopViewSettings -dict-add showItemInfo false
+defaults write com.apple.finder DesktopViewSettings -dict-add textSize 12
+
+# Snap to grid for icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist 2>/dev/null || true
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist 2>/dev/null || true
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy name" ~/Library/Preferences/com.apple.finder.plist 2>/dev/null || true
 
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false

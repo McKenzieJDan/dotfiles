@@ -44,9 +44,18 @@ brew autoremove -v || true
 if [[ "${SKIP_NODE:-}" = "1" ]]; then
   log "Skipping Node.js toolchain updates (SKIP_NODE=1)"
 else
-  log "Node.js: updating nvm if installed via Homebrew"
+  log "Node.js: updating nvm"
+  
+  # Update nvm if installed via Homebrew
   if command -v brew >/dev/null 2>&1 && brew list nvm >/dev/null 2>&1; then
     brew upgrade nvm || true
+  # Update nvm if installed via install script (standard installation)
+  elif [ -d "$HOME/.nvm/.git" ]; then
+    log "Updating nvm via git pull"
+    (cd "$HOME/.nvm" && git fetch --tags origin && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) || true
+  elif [ -d "$HOME/.nvm" ] && [ ! -d "$HOME/.nvm/.git" ]; then
+    log "Updating nvm by re-running install script"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash || true
   fi
 
   if load_nvm; then
