@@ -2,6 +2,9 @@
 # macOS Setup Script
 # Run this after setting up a new Mac to apply preferred system settings
 
+# Exit on error, but allow some commands to fail gracefully
+set -e
+
 echo "Setting up macOS preferences..."
 
 # Dock Settings
@@ -18,9 +21,6 @@ defaults write com.apple.dock autohide-time-modifier -float 0.15
 
 # Show only active applications in Dock
 defaults write com.apple.Dock static-only -bool TRUE
-
-# Restart Dock to apply changes
-killall Dock
 
 # Finder Settings
 echo "Configuring Finder..."
@@ -66,6 +66,12 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 # Trackpad & Mouse Settings
 echo "Configuring trackpad and mouse..."
 
+# Set trackpad tracking speed (0-3 scale, where 2 is moderately fast)
+defaults write -g com.apple.trackpad.scaling -int 2
+
+# Set mouse tracking speed (0-3 scale, uncomment if you use a mouse)
+# defaults write -g com.apple.mouse.scaling -int 2
+
 # Trackpad: enable tap to click for this user and for the login screen
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
@@ -77,8 +83,8 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightC
 defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
 defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
 
-# Disable "natural" (Lion-style) scrolling
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+# Enable "natural" (Lion-style) scrolling
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 # Increase sound quality for Bluetooth headphones/headsets
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
@@ -111,7 +117,11 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture disable-shadow -bool true
 
 # Enable HiDPI display modes (requires restart)
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+if sudo -v 2>/dev/null; then
+    sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+else
+    echo "⚠️  Skipping HiDPI setup - requires admin privileges"
+fi
 
 # Hot Corners
 echo "Configuring hot corners..."
@@ -120,30 +130,100 @@ echo "Configuring hot corners..."
 defaults write com.apple.dock wvous-tl-corner -int 13
 defaults write com.apple.dock wvous-tl-modifier -int 0
 
-# Set Computer Name
-echo "Setting computer name..."
-echo "💡 Suggestion: Use Greek/space names (e.g., Apollo, Artemis, Satellite, Rocket, Cosmos, Orion)"
+# Restart Dock to apply all Dock settings
+killall Dock || true
 
-# TODO: Replace with your chosen name (uncomment and edit)
-# sudo scutil --set ComputerName "YourMacName"
-# sudo scutil --set HostName "YourMacName"
-# sudo scutil --set LocalHostName "YourMacName"
-echo "Skipping computer name setup - edit script to customize"
+# Set Computer Name
+echo ""
+echo "Setting computer name..."
+CURRENT_NAME=$(scutil --get ComputerName 2>/dev/null || echo "")
+
+if [ -n "$CURRENT_NAME" ]; then
+    echo "Current computer name: $CURRENT_NAME"
+    read -p "Do you want to change the computer name? (y/N): " -n 1 -r || true
+    echo
+    CHANGE_NAME=$REPLY
+else
+    CHANGE_NAME="y"
+fi
+
+if [[ $CHANGE_NAME =~ ^[Yy]$ ]]; then
+    echo "💡 Suggestion: Use Greek/space names (e.g., Apollo, Artemis, Satellite, Rocket, Cosmos, Orion)"
+    read -p "Enter new computer name: " NEW_NAME || true
+    
+    if [ -n "$NEW_NAME" ]; then
+        if sudo -v 2>/dev/null; then
+            sudo scutil --set ComputerName "$NEW_NAME"
+            sudo scutil --set HostName "$NEW_NAME"
+            sudo scutil --set LocalHostName "$NEW_NAME"
+            echo "✅ Computer name set to: $NEW_NAME"
+        else
+            echo "⚠️  Could not set computer name - requires admin privileges"
+        fi
+    else
+        echo "⚠️  No name entered, skipping"
+    fi
+else
+    echo "Keeping current computer name: $CURRENT_NAME"
+fi
 
 # Login Window Banner
+echo ""
 echo "Setting up login window banner..."
-echo "⚠️  CUSTOMIZE THE DETAILS BELOW:"
+CURRENT_BANNER=$(sudo defaults read /Library/Preferences/com.apple.loginwindow LoginwindowText 2>/dev/null || echo "")
 
-# TODO: Replace with your actual info (uncomment and edit)
-# sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "This Mac belongs to Your Name. Call 555-1234 if found."
-echo "Skipping login banner setup - edit script to customize"
+if [ -n "$CURRENT_BANNER" ]; then
+    echo "Current login banner: $CURRENT_BANNER"
+    read -p "Do you want to change the login banner? (y/N): " -n 1 -r || true
+    echo
+    CHANGE_BANNER=$REPLY
+else
+    CHANGE_BANNER="y"
+fi
 
-# Make update script globally accessible
-echo "Setting up global update script..."
+if [[ $CHANGE_BANNER =~ ^[Yy]$ ]]; then
+    echo "Enter your information for the login banner:"
+    read -p "First name: " FIRST_NAME || true
+    read -p "Last name: " LAST_NAME || true
+    read -p "Email: " EMAIL || true
+    read -p "Phone number: " PHONE || true
+    
+    if [ -n "$FIRST_NAME" ] && [ -n "$LAST_NAME" ]; then
+        BANNER_TEXT="This Mac belongs to $FIRST_NAME $LAST_NAME."
+        
+        if [ -n "$EMAIL" ] && [ -n "$PHONE" ]; then
+            BANNER_TEXT="$BANNER_TEXT If found, email $EMAIL or call $PHONE."
+        elif [ -n "$EMAIL" ]; then
+            BANNER_TEXT="$BANNER_TEXT If found, email $EMAIL."
+        elif [ -n "$PHONE" ]; then
+            BANNER_TEXT="$BANNER_TEXT If found, call $PHONE."
+        fi
+        
+        if sudo -v 2>/dev/null; then
+            sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "$BANNER_TEXT"
+            echo "✅ Login banner set to: $BANNER_TEXT"
+        else
+            echo "⚠️  Could not set login banner - requires admin privileges"
+        fi
+    else
+        echo "⚠️  First name and last name are required, skipping login banner setup"
+    fi
+else
+    echo "Keeping current login banner"
+fi
+
+# Make update script executable
+echo ""
+echo "Setting up update script..."
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-chmod +x "$SCRIPT_DIR/update-everything.sh"
-sudo ln -sf "$SCRIPT_DIR/update-everything.sh" /usr/local/bin/update-everything
-echo "✅ update-everything script installed globally"
+
+if [ -f "$SCRIPT_DIR/update-everything.sh" ]; then
+    chmod +x "$SCRIPT_DIR/update-everything.sh"
+    echo "✅ update-everything.sh is executable"
+    echo "   Access via alias: update-everything (configured in .zsh/.aliases)"
+else
+    echo "⚠️  update-everything.sh not found"
+fi
 
 # Restart affected applications
 echo "Restarting affected applications..."
@@ -155,10 +235,9 @@ for app in "Dock" \
 	killall "${app}" &> /dev/null || true
 done
 
-echo "macOS setup complete!"
 echo ""
-echo "Additional manual setup:"
-echo "- Configure Git: update name/email in ~/.gitconfig"
-echo "- Edit this script to set computer name and login banner"
+echo "✅ macOS setup complete!"
+echo ""
+echo "Next steps:"
 echo "- Run system updates: update-everything"
-echo "- Some changes require a logout/restart to take effect"
+echo "- Restart your Mac to apply all changes"

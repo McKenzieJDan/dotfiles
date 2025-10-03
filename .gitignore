@@ -9,6 +9,9 @@
 .zsh_sessions/
 .Trash/
 
+# Cursor
+.cursor/rules/
+
 # Specific config excludes
 .config/karabiner/automatic_backups/
 .config/zsh/.zsh_history
