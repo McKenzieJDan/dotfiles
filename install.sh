@@ -133,6 +133,7 @@ done
 log "Making scripts executable..."
 chmod +x "$DOTFILES_DIR/macos-setup.sh"
 chmod +x "$DOTFILES_DIR/update-everything.sh"
+chmod +x "$DOTFILES_DIR/cleanup.sh"
 
 # Make config scripts executable if they exist
 if [ -f "$DOTFILES_DIR/.config/yabai/yabairc" ]; then

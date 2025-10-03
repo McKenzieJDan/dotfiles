@@ -68,6 +68,7 @@ alias gitconfig="$EDITOR ~/.gitconfig"
 
 # Dotfiles management
 alias update-everything="~/git/dotfiles/update-everything.sh"
+alias cleanup="~/git/dotfiles/cleanup.sh"
 alias dotfiles="cd ~/git/dotfiles"
 
 # Backup management
