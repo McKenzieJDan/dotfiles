@@ -95,6 +95,33 @@ if [ -f "$DOTFILES_DIR/.config/yabai/yabairc" ]; then
     chmod +x "$DOTFILES_DIR/.config/yabai/yabairc"
 fi
 
+# Setup GPG agent for commit signing
+if command -v gpg &> /dev/null && command -v pinentry-mac &> /dev/null; then
+    log "Configuring GPG agent with pinentry-mac..."
+    mkdir -p "$HOME/.gnupg"
+    chmod 700 "$HOME/.gnupg"
+    
+    # Create or update gpg-agent.conf
+    cat > "$HOME/.gnupg/gpg-agent.conf" << EOF
+# Use macOS pinentry for passphrase prompts
+pinentry-program $(which pinentry-mac)
+
+# Cache passphrase for 1 hour (3600 seconds)
+default-cache-ttl 3600
+
+# Maximum cache time of 2 hours (7200 seconds)
+max-cache-ttl 7200
+EOF
+    
+    log "GPG agent configured. Restarting gpg-agent..."
+    killall gpg-agent 2>/dev/null || true
+    gpgconf --launch gpg-agent
+    
+    log "✅ GPG setup complete! On first commit, tick 'Save in Keychain' to remember passphrase."
+else
+    warn "GPG or pinentry-mac not found. Skipping GPG agent setup."
+fi
+
 # Run macOS setup
 read -p "Do you want to run macOS system preferences setup? (y/N): " -n 1 -r
 echo
