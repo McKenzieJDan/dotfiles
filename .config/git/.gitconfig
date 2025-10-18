@@ -1,7 +1,7 @@
 [user]
 	name = Dan McKenzie
 	email = 16889045+McKenzieJDan@users.noreply.github.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHJU8G6RvqCE6fJ21fg2OoVkDQ/ZzVZUYLhisHffro7f
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF31Dcl0MtJYAQ0vde08Y63IQQX5mdkwPlmpFli+t9kK
 
 [credential]
 	helper = cache
@@ -133,6 +133,3 @@
 
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-
-[gpg "ssh"]
-	allowedSignersFile = ~/.config/git/allowed_signers
