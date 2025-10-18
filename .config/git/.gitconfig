@@ -1,14 +1,10 @@
 [user]
 	name = Dan McKenzie
 	email = 16889045+McKenzieJDan@users.noreply.github.com
-	signingkey = 51231A8FE38EDF6EFF71958AEA4FFBB1BF647D41
-
-[url "https://github.com/"]
-	insteadOf = git@github.com:
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHJU8G6RvqCE6fJ21fg2OoVkDQ/ZzVZUYLhisHffro7f
 
 [credential]
 	helper = cache
-
 
 [core]
 	editor = cursor --wait
@@ -71,39 +67,31 @@
 	untracked = cyan
 
 [alias]
-	# Basic shortcuts
 	co = checkout
 	br = branch
 	ci = commit
 	cp = cherry-pick -x
 	fp = !git fetch --all && git pull
 	st = status
-	
-	# More complex aliases
+
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	visual = !gitk
-	
-	# Log aliases
+
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-	
-	# Show files ignored by git
+
 	ign = ls-files -o -i --exclude-standard
-	
-	# Assume unchanged
+
 	assume = update-index --assume-unchanged
 	unassume = update-index --no-assume-unchanged
 	assumed = "!git ls-files -v | grep ^h | cut -c 3-"
-	
-	# Delete branches that have been merged
+
 	cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
-	
-	# Show the diff between the latest commit and the current state
+
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
-	
-	# Show verbose output about tags, branches or remotes
+
 	tags = tag -l
 	branches = branch -a
 	remotes = remote -v
@@ -133,7 +121,18 @@
 # Include local gitconfig if it exists
 [include]
 	path = ~/.gitconfig.local
+
 [commit]
 	gpgsign = true
+
 [tag]
 	gpgSign = true
+
+[gpg]
+	format = ssh
+
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+
+[gpg "ssh"]
+	allowedSignersFile = ~/.config/git/allowed_signers

@@ -1,6 +1,6 @@
 # Environment variables
 export EDITOR='cursor'
-export BROWSER='google-chrome'
+export BROWSER='safari'
 export LANG=en_US.UTF-8
 
 # Java
@@ -66,3 +66,8 @@ SAVEHIST=10000
 
 autoload -U compinit && compinit
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# 1Password SSH Agent
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+# Help GUI apps (VS Code, Tower, SourceTree) see the same agent
+launchctl setenv SSH_AUTH_SOCK "$HOME/.1password/agent.sock" >/dev/null 2>&1 || true
