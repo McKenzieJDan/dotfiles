@@ -1,4 +1,4 @@
-# My Dotfiles
+hi# My Dotfiles
 
 Personal macOS setup. Quick install for new machines.
 
