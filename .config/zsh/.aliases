@@ -73,3 +73,6 @@ alias dotfiles="cd ~/git/dotfiles"
 
 # Backup management
 alias backups="open http://127.0.0.1:9898/"
+
+# SSH shortcuts
+alias mc="minecraft"

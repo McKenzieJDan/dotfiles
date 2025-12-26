@@ -139,3 +139,8 @@ getcertnames() {
 tre() {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
+# SSH to Minecraft server
+minecraft() {
+    ssh -i ~/.ssh/ovh_deploy_ed25519 deployuser@ns3091381.ip-37-187-150.eu "$@"
+}
