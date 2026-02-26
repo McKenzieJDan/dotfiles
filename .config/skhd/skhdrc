@@ -1,4 +1,4 @@
-# Restart khd
+# Restart yabai/skhd
 cmd + alt + ctrl - escape           :    yabai --restart-service
 
 # Lock Screen

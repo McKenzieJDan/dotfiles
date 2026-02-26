@@ -33,8 +33,12 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # Python
-export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # GPG
 if command -v gpgconf >/dev/null 2>&1; then
@@ -55,8 +59,6 @@ source ~/.config/zsh/.functions
 setopt AUTO_CD
 setopt CORRECT_ALL
 setopt SHARE_HISTORY
-setopt APPEND_HISTORY
-setopt INC_APPEND_HISTORY
 setopt HIST_NO_STORE
 setopt HIST_REDUCE_BLANKS
 
@@ -64,10 +66,16 @@ HISTFILE=~/.config/zsh/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # 1Password SSH Agent
 export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 # Help GUI apps (VS Code, Tower, SourceTree) see the same agent
 launchctl setenv SSH_AUTH_SOCK "$HOME/.1password/agent.sock" >/dev/null 2>&1 || true
+
+# Amp CLI
+export PATH="/Users/mckenzio/.amp/bin:$PATH"
+
+# Entire CLI shell completion
+source <(entire completion zsh)

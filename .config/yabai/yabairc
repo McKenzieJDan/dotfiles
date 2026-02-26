@@ -38,7 +38,6 @@ systemApp='^(System Preferences|System Settings|System Information|Finder|Calend
 yabai -m rule --add app="${systemApp}" manage=off
 
 # Float specific app windows
-yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
 yabai -m rule --add app="^Chrome$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
 

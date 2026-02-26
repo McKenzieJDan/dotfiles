@@ -63,7 +63,7 @@ alias cgit="cd ~/git"
 # Quick edit configs
 alias zshconfig="$EDITOR ~/.zshrc"
 alias aliases="$EDITOR ~/.config/zsh/.aliases"
-alias functions="$EDITOR ~/.functions"
+alias functions="$EDITOR ~/.config/zsh/.functions"
 alias gitconfig="$EDITOR ~/.gitconfig"
 
 # Dotfiles management

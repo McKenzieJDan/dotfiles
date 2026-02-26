@@ -4,7 +4,7 @@
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF31Dcl0MtJYAQ0vde08Y63IQQX5mdkwPlmpFli+t9kK
 
 [credential]
-	helper = cache
+	helper = osxkeychain
 
 [core]
 	editor = cursor --wait
@@ -35,14 +35,14 @@
 	compactionHeuristic = true
 
 [difftool "vscode"]
-	cmd = code --wait --diff $LOCAL $REMOTE
+	cmd = cursor --wait --diff $LOCAL $REMOTE
 
 [merge]
 	tool = vscode
 	conflictstyle = diff3
 
 [mergetool "vscode"]
-	cmd = code --wait $MERGED
+	cmd = cursor --wait $MERGED
 
 [status]
 	showUntrackedFiles = all
