@@ -9,6 +9,9 @@
 .zsh_sessions/
 .Trash/
 
+# Claude
+CLAUDE.md
+
 # Cursor
 .cursor/rules/
 
