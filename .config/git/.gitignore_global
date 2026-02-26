@@ -88,7 +88,6 @@ venv.bak/
 ########
 *.gem
 *.rbc
-/.config
 /coverage/
 /InstalledFiles
 /pkg/

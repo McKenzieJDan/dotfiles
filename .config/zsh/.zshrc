@@ -19,7 +19,7 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.npm-global/bin:$PATH"
 
 # pnpm
-export PNPM_HOME="/Users/mckenzio/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -71,11 +71,9 @@ autoload -Uz compinit && compinit
 
 # 1Password SSH Agent
 export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-# Help GUI apps (VS Code, Tower, SourceTree) see the same agent
-launchctl setenv SSH_AUTH_SOCK "$HOME/.1password/agent.sock" >/dev/null 2>&1 || true
 
 # Amp CLI
-export PATH="/Users/mckenzio/.amp/bin:$PATH"
+export PATH="$HOME/.amp/bin:$PATH"
 
 # Entire CLI shell completion
 source <(entire completion zsh)

@@ -46,9 +46,6 @@ alias json="pbpaste | jq ."
 alias code="cursor"
 
 # Utilities
-alias cat="bat"
-alias find="fd"
-alias grep="rg"
 alias top="htop"
 alias tree="tree -C"
 
