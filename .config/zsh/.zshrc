@@ -14,9 +14,11 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 
 # Node.js
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export PATH="$HOME/.npm-global/bin:$PATH"
+nvm() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm "$@"; }
+node() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; node "$@"; }
+npm() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; npm "$@"; }
+npx() { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; npx "$@"; }
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -29,21 +31,17 @@ esac
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
-# Rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
 # Python
 export PATH="$HOME/.local/bin:$PATH"
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+eval "$(pyenv init - --no-rehash)"
 
 # GPG
 if command -v gpgconf >/dev/null 2>&1; then
   export GPG_TTY=$(tty)
-  gpgconf --launch gpg-agent >/dev/null 2>&1 || true
 fi
 
 # FZF
@@ -57,7 +55,7 @@ source ~/.config/zsh/.functions
 
 # zsh options
 setopt AUTO_CD
-setopt CORRECT_ALL
+setopt CORRECT
 setopt SHARE_HISTORY
 setopt HIST_NO_STORE
 setopt HIST_REDUCE_BLANKS
@@ -66,7 +64,8 @@ HISTFILE=~/.config/zsh/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then compinit; else compinit -C; fi
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # 1Password SSH Agent
@@ -76,4 +75,7 @@ export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 export PATH="$HOME/.amp/bin:$PATH"
 
 # Entire CLI shell completion
-source <(entire completion zsh)
+if [[ ! -f ~/.config/zsh/_entire_completion ]]; then
+  entire completion zsh > ~/.config/zsh/_entire_completion
+fi
+source ~/.config/zsh/_entire_completion

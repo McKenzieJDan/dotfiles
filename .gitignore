@@ -11,6 +11,7 @@
 
 # Claude
 CLAUDE.md
+.claude/
 
 # Cursor
 .cursor/rules/
@@ -18,6 +19,7 @@ CLAUDE.md
 # Specific config excludes
 .config/karabiner/automatic_backups/
 .config/zsh/.zsh_history
+.config/zsh/_entire_completion
 
 # Backrest - exclude actual config with secrets, include template
 .config/backrest/config.json

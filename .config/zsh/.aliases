@@ -41,7 +41,7 @@ alias ping="ping -c 5"
 # Development
 alias python="python3"
 alias pip="pip3"
-alias serve="python3 -m http.server"
+alias serve="python3 -m http.server --bind 127.0.0.1"
 alias json="pbpaste | jq ."
 alias code="cursor"
 
