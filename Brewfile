@@ -1,5 +1,5 @@
 tap "koekeishiya/formulae"
-tap "garethgeorge/homebrew-backrest-tap"
+tap "garethgeorge/backrest-tap"
 tap "stripe/stripe-cli"
 
 # Development tools
