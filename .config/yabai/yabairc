@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Basics
+yabai -m config status_bar off
+yabai -m config layout bsp
+
+# Gaps & Padding
+yabai -m config top_padding    10
+yabai -m config bottom_padding 10
+yabai -m config left_padding   10
+yabai -m config right_padding  10
+yabai -m config window_gap     10
+
+# Focus & Mouse
+yabai -m config mouse_follows_focus off
+yabai -m config focus_follows_mouse off
+yabai -m config mouse_modifier fn
+yabai -m config mouse_action1  move
+yabai -m config mouse_action2  resize
+
+# Placement & Splits
+yabai -m config window_placement second_child
+yabai -m config split_ratio 0.50
+yabai -m config auto_balance off
+
+# Window Behavior (requires scripting addition for some flags)
+yabai -m config window_topmost on
+# Optional extras if you want opacity/shadows (uncomment only if SA is installed):
+# yabai -m config window_shadow on
+# yabai -m config window_opacity on
+# yabai -m config active_window_opacity 1.0
+# yabai -m config normal_window_opacity 0.90
+
+# App Rules (float / unmanaged)
+systemApp='^(System Preferences|System Settings|System Information|Finder|Calendar|Mail|App Store|Activity Monitor|Dictionary|Calculator|Archive Utility|Disk Utility|Console|TextEdit|Preview|QuickTime Player)$'
+
+# Float system apps
+yabai -m rule --add app="${systemApp}" manage=off
+
+# Float specific app windows
+yabai -m rule --add app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+yabai -m rule --add app="^Chrome$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+
+# Float notification center and similar
+yabai -m rule --add app="^(Notification Center|Control Center)$" manage=off

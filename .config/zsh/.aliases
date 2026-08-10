@@ -1,0 +1,75 @@
+# Navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ~="cd ~"
+alias -- -="cd -"
+
+# List files
+alias ls="eza --icons"
+alias ll="eza -la --icons --git"
+alias la="eza -la --icons"
+alias lt="eza -T --icons"
+alias l="eza -l --icons"
+
+# Git
+alias g="git"
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gco="git checkout"
+alias gb="git branch"
+alias gp="git push"
+alias gl="git pull"
+alias gd="git diff"
+alias glog="git log --oneline --graph --decorate"
+
+# Homebrew
+alias brewup="brew update && brew upgrade && brew cleanup"
+alias cask="brew install --cask"
+
+# System
+alias reload="source ~/.zshrc"
+alias cls="clear"
+alias q="exit"
+
+# Network
+alias ip="curl -s ipinfo.io/ip"
+alias localip="ipconfig getifaddr en0"
+alias ping="ping -c 5"
+
+# Development
+alias python="python3"
+alias pip="pip3"
+alias serve="python3 -m http.server --bind 127.0.0.1"
+alias json="pbpaste | jq ."
+alias code="cursor"
+
+# Utilities
+alias top="htop"
+alias tree="tree -C"
+
+# macOS
+alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+alias desktop="cd ~/Desktop"
+alias downloads="cd ~/Downloads"
+alias documents="cd ~/Documents"
+alias cgit="cd ~/git"
+
+# Quick edit configs
+alias zshconfig="$EDITOR ~/.zshrc"
+alias aliases="$EDITOR ~/.config/zsh/.aliases"
+alias functions="$EDITOR ~/.config/zsh/.functions"
+alias gitconfig="$EDITOR ~/.gitconfig"
+
+# Dotfiles management
+alias update-everything="~/git/dotfiles/update-everything.sh"
+alias cleanup="~/git/dotfiles/cleanup.sh"
+alias dotfiles="cd ~/git/dotfiles"
+
+# Backup management
+alias backups="open http://127.0.0.1:9898/"
+
+# SSH shortcuts
+alias mc="minecraft"

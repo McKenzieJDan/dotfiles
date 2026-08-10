@@ -1,0 +1,98 @@
+{
+  "modno": 2,
+  "version": 6,
+  "instance": "YOUR_INSTANCE_NAME",
+  "repos": [
+    {
+      "id": "YOUR_REPO_NAME",
+      "uri": "s3://YOUR_S3_BUCKET_URL",
+      "guid": "GENERATED_REPO_GUID",
+      "password": "YOUR_REPO_PASSWORD",
+      "env": [
+        "AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY",
+        "AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY"
+      ],
+      "prunePolicy": {
+        "schedule": {
+          "cron": "0 0 1 * *",
+          "clock": "CLOCK_LAST_RUN_TIME"
+        },
+        "maxUnusedPercent": 10
+      },
+      "checkPolicy": {
+        "schedule": {
+          "cron": "0 0 1 * *",
+          "clock": "CLOCK_LAST_RUN_TIME"
+        },
+        "readDataSubsetPercent": 10
+      },
+      "commandPrefix": {
+        "cpuNiceLevel": "CPU_LOW"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "YOUR_BACKUP_PLAN_NAME",
+      "repo": "YOUR_REPO_NAME",
+      "paths": [
+        "/Users/YOUR_USERNAME"
+      ],
+      "excludes": [
+        "**/Library",
+        "**/node_modules",
+        "**/.Trash",
+        "**/.cache",
+        "**/Applications",
+        "**/.DS_Store",
+        "**/.localized",
+        "**/*.icloud",
+        "/Users/YOUR_USERNAME/.npm",
+        "/Users/YOUR_USERNAME/.cargo",
+        "/Users/YOUR_USERNAME/.rustup",
+        "/Users/YOUR_USERNAME/.m2",
+        "/Users/YOUR_USERNAME/.yarn"
+      ],
+      "backup_flags": [
+        "--exclude-cloud-files"
+      ],
+      "schedule": {
+        "maxFrequencyDays": 1,
+        "clock": "CLOCK_LAST_RUN_TIME"
+      },
+      "retention": {
+        "policyTimeBucketed": {
+          "daily": 7,
+          "weekly": 4,
+          "monthly": 6,
+          "yearly": 1
+        }
+      },
+      "hooks": [
+        {
+          "conditions": [
+            "CONDITION_SNAPSHOT_START",
+            "CONDITION_SNAPSHOT_ERROR",
+            "CONDITION_SNAPSHOT_WARNING",
+            "CONDITION_SNAPSHOT_SUCCESS",
+            "CONDITION_ANY_ERROR"
+          ],
+          "actionHealthchecks": {
+            "webhookUrl": "https://hc-ping.com/YOUR_HEALTHCHECKS_UUID",
+            "template": "{{ .Summary }}"
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "disabled": true
+  },
+  "sync": {
+    "identity": {
+      "keyId": "GENERATED_KEY_ID",
+      "ed25519priv": "GENERATED_PRIVATE_KEY",
+      "ed25519pub": "GENERATED_PUBLIC_KEY"
+    }
+  }
+}
