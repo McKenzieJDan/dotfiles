@@ -8,6 +8,7 @@ cmd + alt + ctrl - return           :    open -a Ghostty
 cmd + alt + ctrl - c                :    open -a Cursor
 cmd + alt + ctrl - b                :    open -a "Google Chrome"
 cmd + alt + ctrl - o                :    open -a Obsidian
+cmd + alt + ctrl - g                :    open -a Granola
 
 # Lock Screen
 #cmd + alt + ctrl - l                :    pmset displaysleepnow
