@@ -4,6 +4,10 @@ cmd + alt + ctrl - escape           :    yabai --restart-service
 # Open/focus Ghostty (caps_lock + enter)
 cmd + alt + ctrl - return           :    open -a Ghostty
 
+# New floating centered Ghostty window (caps_lock + shift + enter)
+cmd + alt + ctrl + shift - return   :    yabai -m signal --add label=float_next_window_created event=window_created action='yabai -m signal --remove float_next_window_created; yabai -m window $YABAI_WINDOW_ID --toggle float --grid 5:6:2:1:2:3' ; \
+                                         if pgrep -i ghostty >/dev/null; then open -a Ghostty && sleep 0.2 && skhd -k "cmd - n"; else open -a Ghostty; fi
+
 # App launchers (caps_lock + key)
 cmd + alt + ctrl - c                :    open -a Cursor
 cmd + alt + ctrl - b                :    open -a "Google Chrome"
@@ -29,7 +33,7 @@ cmd + alt + ctrl - d                :    yabai -m window --toggle zoom-parent
 cmd + alt + ctrl - p                :    yabai -m window --toggle split
 
 # Toggle floating window
-cmd + alt + ctrl - s                :    yabai -m window --toggle float --grid 4:4:1:1:2:2
+cmd + alt + ctrl - s                :    yabai -m window --toggle float --grid 10:7:1:1:5:8
 
 # Toggle sticky
 cmd + alt + ctrl - z                :    yabai -m window --toggle sticky
@@ -44,10 +48,10 @@ cmd + alt + ctrl - 0x21             :    yabai -m space --layout float
 cmd + alt + ctrl - 0x1E             :    yabai -m space --layout bsp
 
 # Small space in middle
-cmd + alt + ctrl - k                :    yabai -m space --padding abs:150:150:600:600
+cmd + alt + ctrl - k                :    yabai -m space --padding abs:100:100:300:300
 
 # Big space
-cmd + alt + ctrl - l                :    yabai -m space --padding abs:10:10:10:10
+cmd + alt + ctrl - l                :    yabai -m space --padding abs:5:5:5:5
 
 # Equalise windows
 cmd + alt + ctrl - e                :    yabai -m space --balance
