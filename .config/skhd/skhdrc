@@ -4,6 +4,11 @@ cmd + alt + ctrl - escape           :    yabai --restart-service
 # Open/focus Ghostty (caps_lock + enter)
 cmd + alt + ctrl - return           :    open -a Ghostty
 
+# App launchers (caps_lock + key)
+cmd + alt + ctrl - c                :    open -a Cursor
+cmd + alt + ctrl - b                :    open -a "Google Chrome"
+cmd + alt + ctrl - o                :    open -a Obsidian
+
 # Lock Screen
 #cmd + alt + ctrl - l                :    pmset displaysleepnow
 
