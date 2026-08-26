@@ -1,0 +1,22 @@
+# Ghostty config
+# Docs: https://ghostty.org/docs/config
+# List all options: ghostty +show-config --default --docs
+
+# Font
+font-size = 13
+
+# Theme (light/dark auto-switches with macOS appearance)
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+
+# Window
+window-padding-x = 8
+window-padding-y = 8
+macos-titlebar-style = tabs
+
+# Behavior
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+confirm-close-surface = false
+
+# Shell integration (auto-detects zsh)
+shell-integration-features = cursor,sudo,title
