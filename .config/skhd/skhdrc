@@ -1,6 +1,9 @@
 # Restart yabai/skhd
 cmd + alt + ctrl - escape           :    yabai --restart-service
 
+# Open/focus Ghostty (caps_lock + enter)
+cmd + alt + ctrl - return           :    open -a Ghostty
+
 # Lock Screen
 #cmd + alt + ctrl - l                :    pmset displaysleepnow
 
