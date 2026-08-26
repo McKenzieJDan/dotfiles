@@ -47,7 +47,10 @@ fi
 # FZF
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+# Keybindings: ctrl+t insert file path, ctrl+r fuzzy history, alt+c cd into dir
+source <(fzf --zsh)
 
 # Source additional zsh config files
 source ~/.config/zsh/.aliases
@@ -66,6 +69,25 @@ SAVEHIST=10000
 
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then compinit; else compinit -C; fi
+
+# Completion behavior: case-insensitive matching, arrow-key menu
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Ghost-text suggestions from history (accept with right arrow or end)
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Syntax highlighting (must be sourced last)
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Prompt
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+eval "$(starship init zsh)"
+
+# zoxide: `z <partial-name>` jumps to frecent dirs, `zi` for interactive pick
+eval "$(zoxide init zsh)"
+
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # 1Password SSH Agent

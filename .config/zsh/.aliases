@@ -6,11 +6,11 @@ alias ~="cd ~"
 alias -- -="cd -"
 
 # List files
-alias ls="eza --icons"
-alias ll="eza -la --icons --git"
-alias la="eza -la --icons"
-alias lt="eza -T --icons"
-alias l="eza -l --icons"
+alias ls="eza --icons=auto"
+alias ll="eza -la --icons=auto --git"
+alias la="eza -la --icons=auto"
+alias lt="eza -T --icons=auto"
+alias l="eza -l --icons=auto"
 
 # Git
 alias g="git"

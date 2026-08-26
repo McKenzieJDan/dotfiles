@@ -1,0 +1,14 @@
+# Starship prompt — https://starship.rs/config
+# Mostly defaults, which are already good. Tweaks below.
+
+# Show how long slow commands took (default threshold is 2s)
+[cmd_duration]
+min_time = 2000
+
+# Trim the path a bit less aggressively than default
+[directory]
+truncation_length = 4
+
+# Don't need the package-version module noise in every repo
+[package]
+disabled = true

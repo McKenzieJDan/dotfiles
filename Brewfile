@@ -35,6 +35,10 @@ brew "sops"
 brew "age"
 brew "sccache"
 brew "zizmor"
+brew "starship"
+brew "zoxide"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
 
 # Media
 brew "ffmpeg"
