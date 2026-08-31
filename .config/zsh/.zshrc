@@ -101,3 +101,12 @@ if [[ ! -f ~/.config/zsh/_entire_completion ]]; then
   entire completion zsh > ~/.config/zsh/_entire_completion
 fi
 source ~/.config/zsh/_entire_completion
+eval "$(mise activate zsh)"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# PostHog personal API key (annotation:write) - read from the keychain, not stored here.
+# apps/mac/scripts/release.sh uses it to annotate releases on PostHog charts.
+export POSTHOG_PERSONAL_API_KEY="$(security find-generic-password -a "$USER" -s posthog-personal-api-key -w 2>/dev/null)"
