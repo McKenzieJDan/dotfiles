@@ -1,6 +1,5 @@
 tap "asmvik/formulae"
 tap "garethgeorge/backrest-tap"
-tap "hamed-elfayome/claude-usage"
 tap "stripe/stripe-cli"
 
 # Development tools
@@ -62,7 +61,6 @@ cask "1password-cli"
 cask "battery"
 cask "chatgpt"
 cask "claude-code"
-cask "hamed-elfayome/claude-usage/claude-usage-tracker"
 cask "cursor"
 cask "discord"
 cask "docker-desktop"
