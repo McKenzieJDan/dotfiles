@@ -22,8 +22,9 @@
 	default = simple
 	followTags = true
 
+# Merge on pull. Rebasing rewrites commits that are already pushed.
 [pull]
-	rebase = true
+	rebase = false
 
 [fetch]
 	prune = true
@@ -32,7 +33,6 @@
 	tool = vscode
 	renames = copies
 	algorithm = patience
-	compactionHeuristic = true
 
 [difftool "vscode"]
 	cmd = cursor --wait --diff $LOCAL $REMOTE

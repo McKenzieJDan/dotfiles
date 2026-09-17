@@ -71,50 +71,21 @@ else
 fi
 
 # Backup existing dotfiles
-log "Backing up existing dotfiles..."
+# The backup directory is created on first use, so a clean machine gets none.
 backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
-backup_needed=false
 
-# Check if backup is needed for individual dotfiles
+backup() {
+    mkdir -p "$backup_dir"
+    mv "$1" "$backup_dir/$2"
+    log "Backed up $2 to $backup_dir/"
+}
+
+log "Backing up existing dotfiles..."
 for dotfile in .zshrc .gitconfig .gitignore_global; do
     if [ -f "$HOME/$dotfile" ] && [ ! -L "$HOME/$dotfile" ]; then
-        backup_needed=true
-        break
+        backup "$HOME/$dotfile" "$dotfile"
     fi
 done
-
-# Check if backup is needed for config directories
-if [ "$backup_needed" = false ]; then
-    for config in git zsh backrest yabai skhd; do
-        if [ -d "$HOME/.config/$config" ] && [ ! -L "$HOME/.config/$config" ]; then
-            backup_needed=true
-            break
-        fi
-    done
-fi
-
-# Only create backup directory if needed
-if [ "$backup_needed" = true ]; then
-    mkdir -p "$backup_dir"
-    
-    # Backup individual dotfiles in home directory
-    for dotfile in .zshrc .gitconfig .gitignore_global; do
-        if [ -f "$HOME/$dotfile" ] && [ ! -L "$HOME/$dotfile" ]; then
-            mv "$HOME/$dotfile" "$backup_dir/"
-            log "Backed up $dotfile to $backup_dir/"
-        fi
-    done
-    
-    # Backup existing config directories
-    for config in git zsh backrest yabai skhd; do
-        if [ -d "$HOME/.config/$config" ] && [ ! -L "$HOME/.config/$config" ]; then
-            mv "$HOME/.config/$config" "$backup_dir/config_$config" 2>/dev/null || true
-            log "Backed up .config/$config to $backup_dir/config_$config"
-        fi
-    done
-else
-    log "No existing dotfiles to backup"
-fi
 
 # Create main dotfile symlinks
 log "Creating main dotfile symlinks..."
@@ -150,9 +121,12 @@ for config_dir in "$DOTFILES_DIR/.config"/*; do
         config_name=$(basename "$config_dir")
         target="$HOME/.config/$config_name"
         
-        # Remove existing symlink or directory if it exists
-        if [ -L "$target" ] || [ -d "$target" ]; then
-            rm -rf "$target"
+        # A symlink is ours to replace. Anything real belongs to the user,
+        # so move it to the backup directory instead of deleting it.
+        if [ -L "$target" ]; then
+            rm -f "$target"
+        elif [ -e "$target" ]; then
+            backup "$target" "config_$config_name"
         fi
         
         ln -sf "$config_dir" "$target"
@@ -189,40 +163,6 @@ fi
 # Make config scripts executable if they exist
 if [ -f "$DOTFILES_DIR/.config/yabai/yabairc" ]; then
     chmod +x "$DOTFILES_DIR/.config/yabai/yabairc"
-fi
-
-# Setup GPG agent for commit signing
-if command -v gpg &> /dev/null && command -v pinentry-mac &> /dev/null; then
-    read -p "Do you want to configure GPG commit signing with passphrase caching? (y/N): " -n 1 -r || true
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        log "Configuring GPG agent with pinentry-mac..."
-        mkdir -p "$HOME/.gnupg"
-        chmod 700 "$HOME/.gnupg"
-        
-        # Create or update gpg-agent.conf
-        PINENTRY_PATH=$(which pinentry-mac 2>/dev/null || echo "/opt/homebrew/bin/pinentry-mac")
-        cat > "$HOME/.gnupg/gpg-agent.conf" << EOF
-# Use macOS pinentry for passphrase prompts
-pinentry-program $PINENTRY_PATH
-
-# Cache passphrase for 1 hour (3600 seconds)
-default-cache-ttl 3600
-
-# Maximum cache time of 2 hours (7200 seconds)
-max-cache-ttl 7200
-EOF
-        
-        log "GPG agent configured. Restarting gpg-agent..."
-        killall gpg-agent 2>/dev/null || true
-        gpgconf --launch gpg-agent
-        
-        log "✅ GPG setup complete! On first commit, tick 'Save in Keychain' to remember passphrase."
-    else
-        warn "Skipping GPG setup. You can configure it later by editing ~/.gnupg/gpg-agent.conf"
-    fi
-else
-    warn "GPG or pinentry-mac not found. Skipping GPG agent setup."
 fi
 
 # Run macOS setup

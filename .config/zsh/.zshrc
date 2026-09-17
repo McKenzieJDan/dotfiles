@@ -37,7 +37,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - --no-rehash)"
+command -v pyenv >/dev/null && eval "$(pyenv init - --no-rehash)"
 
 # GPG
 if command -v gpgconf >/dev/null 2>&1; then
@@ -50,7 +50,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 # Keybindings: ctrl+t insert file path, ctrl+r fuzzy history, alt+c cd into dir
-source <(fzf --zsh)
+command -v fzf >/dev/null && source <(fzf --zsh)
 
 # Source additional zsh config files
 source ~/.config/zsh/.aliases
@@ -76,17 +76,19 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Ghost-text suggestions from history (accept with right arrow or end)
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] &&
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Syntax highlighting (must be sourced last)
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] &&
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Prompt
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-eval "$(starship init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
 
 # zoxide: `z <partial-name>` jumps to frecent dirs, `zi` for interactive pick
-eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
@@ -97,16 +99,21 @@ export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 export PATH="$HOME/.amp/bin:$PATH"
 
 # Entire CLI shell completion
-if [[ ! -f ~/.config/zsh/_entire_completion ]]; then
-  entire completion zsh > ~/.config/zsh/_entire_completion
+if command -v entire >/dev/null; then
+  [[ -f ~/.config/zsh/_entire_completion ]] || entire completion zsh > ~/.config/zsh/_entire_completion
+  source ~/.config/zsh/_entire_completion
 fi
-source ~/.config/zsh/_entire_completion
-eval "$(mise activate zsh)"
+
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# PostHog personal API key (annotation:write) - read from the keychain, not stored here.
-# apps/mac/scripts/release.sh uses it to annotate releases on PostHog charts.
-export POSTHOG_PERSONAL_API_KEY="$(security find-generic-password -a "$USER" -s posthog-personal-api-key -w 2>/dev/null)"
+# PostHog personal API key (annotation:write), read from the keychain on demand.
+# Exporting it cost a keychain call per shell and put the key in the
+# environment of every process. Callers run:
+#   POSTHOG_PERSONAL_API_KEY="$(posthog-key)" apps/mac/scripts/release.sh
+posthog-key() {
+  security find-generic-password -a "$USER" -s posthog-personal-api-key -w 2>/dev/null
+}

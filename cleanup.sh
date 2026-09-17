@@ -97,9 +97,11 @@ if command -v pip3 &> /dev/null; then
     info "Clearing pip cache"
     pip3 cache purge 2>/dev/null || true
     
-    info "Removing __pycache__ directories"
-    find ~ -type d -name "__pycache__" -depth -exec rm -rf {} \; 2>/dev/null || true
-    find ~ -type f -name "*.pyc" -delete 2>/dev/null || true
+    # Scoped to ~/git. A scan of the whole home directory walks iCloud Drive
+    # and any mounted volume, which is slow and downloads evicted cloud files.
+    info "Removing __pycache__ directories from ~/git"
+    find ~/git -type d -name "__pycache__" -prune -exec rm -rf {} + 2>/dev/null || true
+    find ~/git -type f -name "*.pyc" -delete 2>/dev/null || true
 fi
 
 # Rust cleanup
@@ -115,29 +117,25 @@ if command -v go &> /dev/null; then
     log "Cleaning Go caches..."
     
     info "Clearing Go build cache"
-    go clean -cache 2>/dev/null || true
-    go clean -modcache 2>/dev/null || true
+    # NOTE: not clearing -modcache (shared by all Go projects, expensive to rebuild).
+    go clean -cache -testcache 2>/dev/null || true
 fi
 
 # macOS system cleanup
+# ~/Library/Caches and ~/Library/Logs are not cleared as a whole. Apps keep
+# state there that does not regenerate, and the logs include this script's own.
 log "Cleaning macOS system caches..."
 
-info "Clearing user cache files"
-rm -rf ~/Library/Caches/* 2>/dev/null || true
-
-info "Clearing system logs"
-rm -rf ~/Library/Logs/* 2>/dev/null || true
-
-info "Emptying trash (may require permissions)"
-rm -rf ~/.Trash/* 2>/dev/null || true
+info "Emptying Trash items older than 30 days"
+find ~/.Trash -mindepth 1 -maxdepth 1 -mtime +30 -exec rm -rf {} + 2>/dev/null || true
 
 info "Clearing Downloads folder .DS_Store files"
 find ~/Downloads -name ".DS_Store" -delete 2>/dev/null || true
 
 info "Clearing Safari cache (if not running)"
 if ! pgrep -x "Safari" > /dev/null; then
+    # LocalStorage is site data, not cache. Clearing it signs you out of sites.
     rm -rf ~/Library/Caches/com.apple.Safari/* 2>/dev/null || true
-    rm -rf ~/Library/Safari/LocalStorage/* 2>/dev/null || true
 else
     warn "Safari is running, skipping Safari cache cleanup"
 fi
@@ -145,8 +143,8 @@ fi
 # Development cleanup
 log "Cleaning development artifacts..."
 
-info "Removing .DS_Store files from home directory"
-find ~ -name ".DS_Store" -type f -delete 2>/dev/null || true
+info "Removing .DS_Store files from ~/git"
+find ~/git -name ".DS_Store" -type f -delete 2>/dev/null || true
 
 info "Clearing Xcode derived data"
 rm -rf ~/Library/Developer/Xcode/DerivedData/* 2>/dev/null || true

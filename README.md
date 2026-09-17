@@ -1,4 +1,4 @@
-hi# My Dotfiles
+# My Dotfiles
 
 Personal macOS setup. Quick install for new machines.
 
@@ -6,7 +6,8 @@ Personal macOS setup. Quick install for new machines.
 
 - **Apps**: Brewfile with all the tools I use
 - **macOS tweaks**: Dock hide improvements, Finder settings, fast keyboard repeat
-- **Shell**: zsh with good aliases and functions  
+- **Shell**: zsh with good aliases and functions, starship prompt
+- **Terminal**: Ghostty config
 - **Window management**: yabai + skhd configs
 - **Git**: Decent defaults and shortcuts
 - **Backup**: Backrest configuration template (requires setup)
@@ -46,8 +47,10 @@ cleanup.sh                 # Manual interactive cleanup
 weekly-cleanup.sh          # Automated cleanup (run by LaunchAgent)
 launchagents/              # LaunchAgent plist templates
 .config/
+  ├── ghostty/             # Terminal
   ├── git/                 # Git configuration
-  ├── zsh/                 # Shell configuration  
+  ├── zsh/                 # Shell configuration
+  ├── starship/            # Prompt
   ├── yabai/               # Window manager
   ├── skhd/                # Hotkey daemon
   ├── karabiner/           # Keyboard remapping

@@ -36,7 +36,8 @@ alias q="exit"
 # Network
 alias ip="curl -s ipinfo.io/ip"
 alias localip="ipconfig getifaddr en0"
-alias ping="ping -c 5"
+# Not an override of ping itself, so a continuous ping still works.
+alias ping5="ping -c 5"
 
 # Development
 alias python="python3"
@@ -64,9 +65,11 @@ alias functions="$EDITOR ~/.config/zsh/.functions"
 alias gitconfig="$EDITOR ~/.gitconfig"
 
 # Dotfiles management
-alias update-everything="~/git/dotfiles/update-everything.sh"
-alias cleanup="~/git/dotfiles/cleanup.sh"
-alias dotfiles="cd ~/git/dotfiles"
+# Resolved from this file's own location, so moving the repo keeps it working.
+DOTFILES_DIR="${${(%):-%N}:A:h:h:h}"
+alias update-everything="$DOTFILES_DIR/update-everything.sh"
+alias cleanup="$DOTFILES_DIR/cleanup.sh"
+alias dotfiles="cd $DOTFILES_DIR"
 
 # Backup management
 alias backups="open http://127.0.0.1:9898/"

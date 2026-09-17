@@ -27,11 +27,13 @@ load_nvm() {
   return 1
 }
 
+# Every step continues on failure. One broken formula must not stop the
+# Node and macOS updates below.
 log "Homebrew: update taps"
-brew update
+brew update || log "Homebrew: update failed, continuing"
 
 log "Homebrew: upgrade formulae"
-brew upgrade
+brew upgrade || log "Homebrew: upgrade failed, continuing"
 
 log "Homebrew: upgrade casks (apps like Chrome)"
 # --greedy updates casks that auto-update themselves too

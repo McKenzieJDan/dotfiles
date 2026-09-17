@@ -24,7 +24,9 @@ yabai -m config split_ratio 0.50
 yabai -m config auto_balance off
 
 # Window Behavior (requires scripting addition for some flags)
-yabai -m config window_topmost on
+# window_topmost stays off. On, it raises every window above modals and
+# dialogs. Toggle it per window with ctrl+alt+cmd - x (see skhdrc).
+yabai -m config window_topmost off
 # Optional extras if you want opacity/shadows (uncomment only if SA is installed):
 # yabai -m config window_shadow on
 # yabai -m config window_opacity on

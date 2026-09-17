@@ -25,7 +25,7 @@ defaults write com.apple.Dock static-only -bool TRUE
 # Finder Settings
 echo "Configuring Finder..."
 
-# Show hidden files by default
+# Keep hidden files hidden. Toggle per session with the showfiles/hidefiles aliases.
 defaults write com.apple.finder AppleShowAllFiles -bool false
 
 # Show all filename extensions
@@ -56,8 +56,8 @@ defaults write NSGlobalDomain com.apple.springing.delay -float 0
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-# Use icon view in all Finder windows by default
-# Four-letter codes for the other view modes: `Nlsv` (list), `clmv` (column), `glyv` (gallery)
+# Use gallery view in all Finder windows by default
+# Four-letter codes for the other view modes: `Nlsv` (list), `clmv` (column), `icnv` (icon)
 defaults write com.apple.finder FXPreferredViewStyle -string "glyv"
 
 # Icon view settings
@@ -244,11 +244,11 @@ else
     echo "⚠️  update-everything.sh not found"
 fi
 
-# Restart affected applications
+# Restart affected applications. Chrome is not restarted: no setting above
+# touches it, and killing it loses open tabs.
 echo "Restarting affected applications..."
 for app in "Dock" \
 	"Finder" \
-	"Google Chrome" \
 	"SystemUIServer" \
 	"cfprefsd"; do
 	killall "${app}" &> /dev/null || true

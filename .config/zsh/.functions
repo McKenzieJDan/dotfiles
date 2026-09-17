@@ -9,6 +9,10 @@ extract() {
         case $1 in
             *.tar.bz2)   tar xjf "$1"     ;;
             *.tar.gz)    tar xzf "$1"     ;;
+            *.tar.xz)    tar xJf "$1"     ;;
+            *.tar.zst)   tar --zstd -xf "$1" ;;
+            *.xz)        unxz "$1"        ;;
+            *.zst)       unzstd "$1"      ;;
             *.bz2)       bunzip2 "$1"     ;;
             *.rar)       unrar e "$1"     ;;
             *.gz)        gunzip "$1"      ;;
@@ -66,17 +70,18 @@ fs() {
     else
         local arg=-sh;
     fi
-    if [[ -n "$@" ]]; then
+    if (( $# )); then
         du $arg -- "$@";
     else
-        du $arg .[^.]* ./*;
+        # (N) so an empty directory reports nothing instead of failing to glob.
+        du $arg .[^.]*(N) ./*(N);
     fi;
 }
 
-# Use Git's colored diff when available
-hash git &>/dev/null;
-if [ $? -eq 0 ]; then
-    diff() {
+# Git's colored word diff for two files outside a repo.
+# Named gdiff, not diff, so the real diff stays available.
+if hash git &>/dev/null; then
+    gdiff() {
         git diff --no-index --color-words "$@";
     }
 fi;
