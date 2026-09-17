@@ -142,6 +142,40 @@ else
     echo "⚠️  Skipping HiDPI setup - requires admin privileges"
 fi
 
+# Security Settings
+echo "Configuring security..."
+
+if sudo -v 2>/dev/null; then
+    # Application firewall on, plus stealth mode (do not answer probes or pings)
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on >/dev/null
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on >/dev/null
+
+    # Guest account off
+    sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
+
+    # No password hints at the login window
+    sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0
+
+    # Check for, download and install security responses automatically
+    sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+    sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool true
+    sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
+    sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool true
+else
+    echo "⚠️  Skipping security setup - requires admin privileges"
+fi
+
+# Warn about the two protections a script must not turn on for you
+if ! spctl --status 2>/dev/null | grep -q "enabled"; then
+    echo "⚠️  Gatekeeper is disabled"
+fi
+# FileVault is the disk encryption. A laptop leaves the house, so it should be
+# on. Turning it on needs a recovery key you have to keep, so do it by hand:
+# System Settings > Privacy & Security > FileVault.
+if ! fdesetup status 2>/dev/null | grep -q "FileVault is On"; then
+    echo "⚠️  FileVault is OFF - turn it on in System Settings > Privacy & Security"
+fi
+
 # Hot Corners
 echo "Configuring hot corners..."
 

@@ -15,11 +15,22 @@ Personal macOS setup. Quick install for new machines.
 
 ## Setup
 
+New machine. Open Terminal and run:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/McKenzieJDan/dotfiles/master/bootstrap.sh)"
+```
+
+This installs Homebrew (and the Xcode Command Line Tools), clones this repo to
+`~/git/dotfiles`, and runs `install.sh`.
+
+Existing clone:
+
 ```bash
 ./install.sh
 ```
 
-That's it. Installs everything and sets up symlinks.
+Either way installs everything and sets up symlinks. Re-run anytime.
 
 ## Key Bindings
 
@@ -40,6 +51,7 @@ Window management (Cmd + Alt + Ctrl + ...):
 
 ```
 Brewfile                    # Homebrew package list
+bootstrap.sh                # Curl-able entry point for a new machine
 install.sh                  # Auto-setup script
 macos-setup.sh             # System preferences
 update-everything.sh       # Update script
