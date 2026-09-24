@@ -1,0 +1,21 @@
+// Mirrors the split and terminal keybindings in Ghostty
+[
+    // Splits
+    { "key": "cmd+d", "command": "workbench.action.splitEditorRight", "when": "editorFocus" },
+    { "key": "cmd+shift+d", "command": "workbench.action.splitEditorDown", "when": "editorFocus" },
+    { "key": "cmd+d", "command": "workbench.action.terminal.split", "when": "terminalFocus" },
+    { "key": "cmd+alt+left", "command": "workbench.action.navigateLeft" },
+    { "key": "cmd+alt+right", "command": "workbench.action.navigateRight" },
+    { "key": "cmd+alt+up", "command": "workbench.action.navigateUp" },
+    { "key": "cmd+alt+down", "command": "workbench.action.navigateDown" },
+    { "key": "cmd+ctrl+left", "command": "workbench.action.decreaseViewWidth" },
+    { "key": "cmd+ctrl+right", "command": "workbench.action.increaseViewWidth" },
+    { "key": "cmd+ctrl+up", "command": "workbench.action.decreaseViewHeight" },
+    { "key": "cmd+ctrl+down", "command": "workbench.action.increaseViewHeight" },
+    { "key": "cmd+shift+enter", "command": "workbench.action.toggleMaximizeEditorGroup", "when": "editorFocus" },
+    { "key": "cmd+shift+enter", "command": "workbench.action.toggleMaximizedPanel", "when": "terminalFocus" },
+    { "key": "cmd+ctrl+equal", "command": "workbench.action.evenEditorWidths" },
+
+    // Terminal: shift+enter inserts a newline (for Claude Code prompts)
+    { "key": "shift+enter", "command": "workbench.action.terminal.sendSequence", "args": { "text": "\n" }, "when": "terminalFocus" }
+]

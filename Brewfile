@@ -85,3 +85,18 @@ cask "zoom"
 cask "transmission"
 cask "stremio"
 cask "tailscale-app"
+
+# Fonts
+cask "font-jetbrains-mono-nerd-font"
+
+# VS Code extensions
+vscode "catppuccin.catppuccin-vsc"
+vscode "dbaeumer.vscode-eslint"
+vscode "bradlc.vscode-tailwindcss"
+vscode "editorconfig.editorconfig"
+vscode "golang.go"
+vscode "hverlin.mise-vscode"
+vscode "ms-playwright.playwright"
+vscode "redhat.vscode-yaml"
+vscode "tamasfe.even-better-toml"
+vscode "vitest.explorer"

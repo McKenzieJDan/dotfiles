@@ -190,6 +190,18 @@ for config_dir in "$DOTFILES_DIR/.config"/*; do
     fi
 done
 
+# VS Code reads its config from Application Support, not ~/.config
+vscode_user="$HOME/Library/Application Support/Code/User"
+mkdir -p "$vscode_user"
+for vscode_file in settings.json keybindings.json; do
+    target="$vscode_user/$vscode_file"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+        backup "$target" "vscode_$vscode_file"
+    fi
+    ln -sf "$DOTFILES_DIR/.config/vscode/$vscode_file" "$target"
+    log "Linked VS Code $vscode_file → .config/vscode/$vscode_file"
+done
+
 step "Scripts and LaunchAgents"
 log "Making scripts executable..."
 chmod +x "$DOTFILES_DIR/macos-setup.sh"

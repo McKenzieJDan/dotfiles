@@ -1,0 +1,46 @@
+{
+    // Theme - match Ghostty (always Catppuccin Mocha)
+    "window.autoDetectColorScheme": false,
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "catppuccin.accentColor": "rosewater",
+
+    // Cursor - match Ghostty
+    "editor.cursorStyle": "block",
+    "editor.cursorBlinking": "solid",
+    "editor.padding.top": 8,
+    "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+    "terminal.integrated.fontSize": 13,
+    "terminal.integrated.cursorStyle": "block",
+    "terminal.integrated.cursorBlinking": false,
+    "terminal.integrated.minimumContrastRatio": 1.1,
+
+    // Terminal behavior - match Ghostty
+    "terminal.integrated.macOptionIsMeta": true,
+    "terminal.integrated.altClickMovesCursor": true,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.scrollback": 100000,
+    "terminal.integrated.confirmOnExit": "never",
+    "terminal.integrated.confirmOnKill": "never",
+
+    // Quiet window - restore state, no welcome page, less chrome
+    "window.restoreWindows": "all",
+    "workbench.startupEditor": "none",
+    "workbench.tips.enabled": false,
+    "editor.minimap.enabled": false,
+    "window.commandCenter": false,
+    "workbench.layoutControl.enabled": false,
+
+    // No AI features or sign-in prompts
+    "chat.disableAIFeatures": true,
+    "telemetry.telemetryLevel": "off",
+
+    // Files
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "[markdown]": {
+        // Two trailing spaces are a line break in Markdown
+        "files.trimTrailingWhitespace": false
+    }
+}
