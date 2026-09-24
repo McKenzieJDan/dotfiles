@@ -21,6 +21,7 @@ alias gco="git checkout"
 alias gb="git branch"
 alias gp="git push"
 alias gl="git pull"
+alias update-repo="git pull --rebase --autostash"
 alias gd="git diff"
 alias glog="git log --oneline --graph --decorate"
 

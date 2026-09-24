@@ -1,6 +1,11 @@
 #!/bin/bash
 
 # Dotfiles Installation Script
+
+# Bash reads a script as it runs, so editing this file (or a git pull) during
+# an install makes it resume at the wrong offset. The braces force the whole
+# script to be parsed before anything runs.
+{
 set -e
 
 GREEN='\033[0;32m'
@@ -20,12 +25,30 @@ error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Mirror everything to a log file, so a stuck or failed run can be inspected
+# afterwards (or followed live from another terminal with tail -f).
+LOG_FILE="$HOME/Library/Logs/dotfiles-install-$(date +%Y%m%d_%H%M%S).log"
+mkdir -p "$(dirname "$LOG_FILE")"
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+START_TIME=$SECONDS
+
+# Section header with elapsed time, so it is obvious which step is running.
+step() {
+    local elapsed=$((SECONDS - START_TIME))
+    echo
+    echo -e "${GREEN}==>${NC} $1 ${YELLOW}[$(printf '%02d:%02d' $((elapsed / 60)) $((elapsed % 60))) elapsed]${NC}"
+}
+
+trap 'error "Failed at line $LINENO (exit $?). Full log: $LOG_FILE"' ERR
+
 # Get the directory where this script is located
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 log "Installing dotfiles from $DOTFILES_DIR"
+log "Logging to $LOG_FILE"
 
-# Install Homebrew if not present
+step "Homebrew"
 if ! command -v brew &> /dev/null; then
     log "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -42,18 +65,50 @@ else
 fi
 
 # Install apps and tools
-log "Installing applications and tools via Homebrew..."
+step "Brewfile ($(grep -cE '^(brew|cask|mas|vscode) ' "$DOTFILES_DIR/Brewfile") packages, this is the slow part)"
 cd "$DOTFILES_DIR"
 # Homebrew refuses to install from untrusted third-party taps since mid-2026
 brew trust garethgeorge/backrest-tap 2>/dev/null || true
 brew trust asmvik/formulae 2>/dev/null || true
 brew trust stripe/stripe-cli 2>/dev/null || true
-brew bundle install
+# Homebrew downloads casks in parallel and prints nothing until each one
+# finishes, so big apps look like a hang. Report the in-flight downloads
+# every 10s until brew bundle is done.
+download_progress() {
+    local cache_dir last_kb=0 kb names count rate
+    cache_dir="$(brew --cache)/downloads"
+    while sleep 10; do
+        shopt -s nullglob
+        local partials=("$cache_dir"/*.incomplete)
+        shopt -u nullglob
+        count=${#partials[@]}
+        [ "$count" -eq 0 ] && { last_kb=0; continue; }
+        kb=$(du -sk "${partials[@]}" 2>/dev/null | awk '{s+=$1} END {print s+0}')
+        names=$(for f in "${partials[@]}"; do f=${f##*--}; echo "${f%%[-_.]*}"; done | paste -sd, - | sed 's/,/, /g')
+        # A finished download leaves the total, so only show a rate when it grew.
+        rate=""
+        [ "$last_kb" -gt 0 ] && [ "$kb" -ge "$last_kb" ] && rate=" at $(( (kb - last_kb) / 10240 )) MB/s"
+        echo -e "${YELLOW}  ↓ ${count} downloading, $((kb / 1024)) MB so far${rate}: ${names}${NC}"
+        last_kb=$kb
+    done
+}
 
-# Install nvm (Node Version Manager)
+download_progress &
+PROGRESS_PID=$!
+trap 'kill $PROGRESS_PID 2>/dev/null' EXIT
+
+# --verbose prints each package as it finishes. Some casks ask for your
+# password via sudo partway through.
+brew bundle install --verbose
+
+kill $PROGRESS_PID 2>/dev/null || true
+trap - EXIT
+
+step "nvm and Node.js"
 if [ ! -d "$HOME/.nvm" ]; then
     log "Installing nvm (Node Version Manager)..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    # PROFILE=/dev/null stops the installer editing shell profiles; .zshrc loads nvm itself
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | PROFILE=/dev/null bash
     
     # Load nvm for this session
     export NVM_DIR="$HOME/.nvm"
@@ -80,6 +135,7 @@ backup() {
     log "Backed up $2 to $backup_dir/"
 }
 
+step "Dotfiles"
 log "Backing up existing dotfiles..."
 for dotfile in .zshrc .gitconfig .gitignore_global; do
     if [ -f "$HOME/$dotfile" ] && [ ! -L "$HOME/$dotfile" ]; then
@@ -134,7 +190,7 @@ for config_dir in "$DOTFILES_DIR/.config"/*; do
     fi
 done
 
-# Make scripts executable
+step "Scripts and LaunchAgents"
 log "Making scripts executable..."
 chmod +x "$DOTFILES_DIR/macos-setup.sh"
 chmod +x "$DOTFILES_DIR/update-everything.sh"
@@ -165,7 +221,7 @@ if [ -f "$DOTFILES_DIR/.config/yabai/yabairc" ]; then
     chmod +x "$DOTFILES_DIR/.config/yabai/yabairc"
 fi
 
-# Run macOS setup
+step "macOS preferences"
 read -p "Do you want to run macOS system preferences setup? (y/N): " -n 1 -r || true
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -175,7 +231,7 @@ else
     warn "Skipping macOS setup. You can run it later with: ./macos-setup.sh"
 fi
 
-# Start yabai and skhd services
+step "Services"
 if command -v yabai &> /dev/null && command -v skhd &> /dev/null; then
     log "Starting yabai and skhd services..."
     if yabai --start-service 2>/dev/null && skhd --start-service 2>/dev/null; then
@@ -201,7 +257,7 @@ elif command -v backrest &> /dev/null; then
     warn "Backrest installed but config.json not found. Service not started."
 fi
 
-log "Installation complete!"
+log "Installation complete in $(((SECONDS - START_TIME) / 60))m $(((SECONDS - START_TIME) % 60))s. Log: $LOG_FILE"
 echo
 echo "Next steps:"
 echo "1. Restart your terminal or run 'source ~/.zshrc'"
@@ -209,3 +265,5 @@ echo "2. Run macOS setup if you haven't already: ./macos-setup.sh"
 echo "3. Review and customize configurations as needed"
 echo
 log "Don't forget to restart your system to apply all macOS changes!"
+exit
+}

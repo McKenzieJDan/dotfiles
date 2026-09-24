@@ -38,9 +38,6 @@ cmd + alt + ctrl - s                :    yabai -m window --toggle float --grid 1
 # Toggle sticky
 cmd + alt + ctrl - z                :    yabai -m window --toggle sticky
 
-# Toggle topmost (keep above over windows)
-cmd + alt + ctrl - x                :    yabai -m window --toggle topmost
-
 # Entire desktop floating
 cmd + alt + ctrl - 0x21             :    yabai -m space --layout float
 

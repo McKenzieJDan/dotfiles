@@ -10,6 +10,9 @@ echo "Setting up macOS preferences..."
 # Dock Settings
 echo "Configuring Dock..."
 
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
 # Remove dock autohide delay
 defaults write com.apple.dock autohide-delay -float 0
 
@@ -85,8 +88,8 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 # Trackpad & Mouse Settings
 echo "Configuring trackpad and mouse..."
 
-# Set trackpad tracking speed (0-3 scale, where 2 is moderately fast)
-defaults write -g com.apple.trackpad.scaling -int 2
+# Set trackpad tracking speed (System Settings slider tops out at 3; higher values go faster)
+defaults write -g com.apple.trackpad.scaling -float 5
 
 # Set mouse tracking speed (0-3 scale, uncomment if you use a mouse)
 # defaults write -g com.apple.mouse.scaling -int 2
@@ -174,6 +177,20 @@ fi
 # System Settings > Privacy & Security > FileVault.
 if ! fdesetup status 2>/dev/null | grep -q "FileVault is On"; then
     echo "⚠️  FileVault is OFF - turn it on in System Settings > Privacy & Security"
+fi
+
+# Wallpaper
+echo "Setting wallpaper..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Points at the file in the repo, so the repo has to stay where it is. The
+# first run asks permission for the terminal to control System Events.
+# Other Spaces keep their own wallpaper until you switch to them and rerun.
+if [ -f "$SCRIPT_DIR/wallpaper.png" ]; then
+    osascript -e "tell application \"System Events\" to tell every desktop to set picture to POSIX file \"$SCRIPT_DIR/wallpaper.png\"" \
+        || echo "⚠️  Could not set wallpaper - allow the terminal to control System Events in Privacy & Security > Automation"
+else
+    echo "⚠️  wallpaper.png not found"
 fi
 
 # Hot Corners
@@ -268,7 +285,6 @@ fi
 # Make update script executable
 echo ""
 echo "Setting up update script..."
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [ -f "$SCRIPT_DIR/update-everything.sh" ]; then
     chmod +x "$SCRIPT_DIR/update-everything.sh"
