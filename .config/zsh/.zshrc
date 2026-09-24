@@ -31,6 +31,9 @@ esac
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
+# Rust (Homebrew rustup is keg-only)
+export PATH="/opt/homebrew/opt/rustup/bin:$HOME/.cargo/bin:$PATH"
+
 # Python
 export PATH="$HOME/.local/bin:$PATH"
 
