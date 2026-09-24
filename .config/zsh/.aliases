@@ -45,7 +45,6 @@ alias python="python3"
 alias pip="pip3"
 alias serve="python3 -m http.server --bind 127.0.0.1"
 alias json="pbpaste | jq ."
-alias code="cursor"
 
 # Utilities
 alias top="htop"

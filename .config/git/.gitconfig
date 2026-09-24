@@ -7,7 +7,7 @@
 	helper = osxkeychain
 
 [core]
-	editor = cursor --wait
+	editor = code --wait
 	autocrlf = input
 	excludesfile = ~/.gitignore_global
 	quotepath = false
@@ -35,14 +35,14 @@
 	algorithm = patience
 
 [difftool "vscode"]
-	cmd = cursor --wait --diff $LOCAL $REMOTE
+	cmd = code --wait --diff $LOCAL $REMOTE
 
 [merge]
 	tool = vscode
 	conflictstyle = diff3
 
 [mergetool "vscode"]
-	cmd = cursor --wait $MERGED
+	cmd = code --wait $MERGED
 
 [status]
 	showUntrackedFiles = all

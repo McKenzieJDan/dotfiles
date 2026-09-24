@@ -1,5 +1,5 @@
 # Environment variables
-export EDITOR='cursor'
+export EDITOR='code --wait'
 export BROWSER='safari'
 export LANG=en_US.UTF-8
 

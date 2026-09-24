@@ -9,7 +9,7 @@ cmd + alt + ctrl + shift - return   :    yabai -m signal --add label=float_next_
                                          if pgrep -i ghostty >/dev/null; then open -a Ghostty && sleep 0.2 && skhd -k "cmd - n"; else open -a Ghostty; fi
 
 # App launchers (caps_lock + key)
-cmd + alt + ctrl - c                :    open -a Cursor
+cmd + alt + ctrl - c                :    open -a "Visual Studio Code"
 cmd + alt + ctrl - b                :    open -a "Google Chrome"
 cmd + alt + ctrl - o                :    open -a Obsidian
 cmd + alt + ctrl - g                :    open -a Granola
