@@ -90,8 +90,9 @@ cask "tailscale-app"
 cask "font-jetbrains-mono-nerd-font"
 
 # VS Code extensions
-vscode "catppuccin.catppuccin-vsc"
+vscode "enkia.tokyo-night"
 vscode "dbaeumer.vscode-eslint"
+vscode "anthropic.claude-code"
 vscode "bradlc.vscode-tailwindcss"
 vscode "editorconfig.editorconfig"
 vscode "golang.go"

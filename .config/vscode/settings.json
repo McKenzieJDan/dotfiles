@@ -1,9 +1,7 @@
 {
-    // Theme - match Ghostty (always Catppuccin Mocha)
+    // Theme - always dark
     "window.autoDetectColorScheme": false,
-    "workbench.colorTheme": "Catppuccin Mocha",
-    "catppuccin.accentColor": "rosewater",
-
+    "workbench.colorTheme": "Tokyo Night",
     // Cursor - match Ghostty
     "editor.cursorStyle": "block",
     "editor.cursorBlinking": "solid",
@@ -13,7 +11,6 @@
     "terminal.integrated.cursorStyle": "block",
     "terminal.integrated.cursorBlinking": false,
     "terminal.integrated.minimumContrastRatio": 1.1,
-
     // Terminal behavior - match Ghostty
     "terminal.integrated.macOptionIsMeta": true,
     "terminal.integrated.altClickMovesCursor": true,
@@ -21,7 +18,6 @@
     "terminal.integrated.scrollback": 100000,
     "terminal.integrated.confirmOnExit": "never",
     "terminal.integrated.confirmOnKill": "never",
-
     // Quiet window - restore state, no welcome page, less chrome
     "window.restoreWindows": "all",
     "workbench.startupEditor": "none",
@@ -29,11 +25,11 @@
     "editor.minimap.enabled": false,
     "window.commandCenter": false,
     "workbench.layoutControl.enabled": false,
-
     // No AI features or sign-in prompts
     "chat.disableAIFeatures": true,
     "telemetry.telemetryLevel": "off",
-
+    "workbench.enableExperiments": false,
+    "workbench.settings.enableNaturalLanguageSearch": false,
     // Files
     "editor.formatOnSave": true,
     "files.trimTrailingWhitespace": true,
@@ -42,5 +38,7 @@
     "[markdown]": {
         // Two trailing spaces are a line break in Markdown
         "files.trimTrailingWhitespace": false
-    }
+    },
+    "claudeCode.preferredLocation": "panel",
+    "claudeCode.hideOnboarding": true
 }
