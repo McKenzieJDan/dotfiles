@@ -1,0 +1,26 @@
+# Atuin config
+# Docs: https://docs.atuin.sh/configuration/config/
+# Full defaults: atuin default-config
+
+# Local only: no sync server, no update nag (Homebrew updates it)
+auto_sync = false
+update_check = false
+
+# Up arrow: only commands run in this directory
+filter_mode_shell_up_key_binding = "directory"
+
+# ctrl+r: start in the git repo (or this directory outside a repo).
+# Press ctrl+r again in the search UI to cycle the filter modes.
+workspaces = true
+
+search_mode = "fuzzy"
+style = "compact"
+inline_height = 20
+# Default is full screen for the up arrow
+inline_height_shell_up_key_binding = 20
+
+# Enter runs the command, tab puts it in the prompt to edit
+enter_accept = true
+
+[search]
+filters = ["workspace", "directory", "global", "session"]

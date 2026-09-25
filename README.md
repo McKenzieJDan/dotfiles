@@ -6,7 +6,7 @@ Personal macOS setup. Quick install for new machines.
 
 - **Apps**: Brewfile with all the tools I use
 - **macOS tweaks**: Dock hide improvements, Finder settings, fast keyboard repeat
-- **Shell**: zsh with good aliases and functions, starship prompt
+- **Shell**: zsh with good aliases and functions, starship prompt, Atuin history per directory
 - **Terminal**: Ghostty config
 - **Window management**: yabai + skhd configs
 - **Git**: Decent defaults and shortcuts
@@ -63,6 +63,7 @@ launchagents/              # LaunchAgent plist templates
   ├── git/                 # Git configuration
   ├── zsh/                 # Shell configuration
   ├── starship/            # Prompt
+  ├── atuin/               # Shell history
   ├── yabai/               # Window manager
   ├── skhd/                # Hotkey daemon
   ├── karabiner/           # Keyboard remapping

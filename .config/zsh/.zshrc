@@ -52,7 +52,8 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-# Keybindings: ctrl+t insert file path, ctrl+r fuzzy history, alt+c cd into dir
+# Keybindings: ctrl+t insert file path, alt+c cd into dir
+# (Atuin replaces fzf's ctrl+r further down)
 command -v fzf >/dev/null && source <(fzf --zsh)
 
 # Source additional zsh config files
@@ -81,6 +82,18 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # Ghost-text suggestions from history (accept with right arrow or end)
 [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] &&
   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Atuin: history with the directory and git repo of each command.
+# Up arrow shows this directory's history, ctrl+r searches (see config.toml).
+# --disable-ai stops `?` from sending the prompt to Atuin's AI service.
+if command -v atuin >/dev/null; then
+  eval "$(atuin init zsh --disable-ai)"
+  # Suggest commands from this directory first, then from anywhere
+  _zsh_autosuggest_strategy_atuin_cwd() {
+    suggestion=$(ATUIN_QUERY="$1" atuin search --cmd-only --author '$all-user' --limit 1 --search-mode prefix --filter-mode directory 2>/dev/null)
+  }
+  ZSH_AUTOSUGGEST_STRATEGY=(atuin_cwd atuin)
+fi
 
 # Syntax highlighting (must be sourced last)
 [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] &&

@@ -39,6 +39,7 @@ brew "sccache"
 brew "zizmor"
 brew "starship"
 brew "zoxide"
+brew "atuin"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 
